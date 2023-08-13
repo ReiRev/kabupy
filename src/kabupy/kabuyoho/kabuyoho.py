@@ -10,7 +10,7 @@ from money import Money
 
 from ..base import Page, Website
 from ..exceptions import InvalidElementError
-from ..util import str2money
+from ..util import str2float, str2money
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +46,16 @@ class ReportTargetPage(Page):
         super().__init__()
 
 
+class ReportDpsPage(Page):
+    """Report target page object."""
+
+    def __init__(self, website: Website, security_code: str | int) -> None:
+        self.website = website
+        self.security_code = security_code
+        self.url = urllib.parse.urljoin(self.website.url, f"sp/reportDps?bcode={self.security_code}")
+        super().__init__()
+
+
 class Stock:
     """Stock object for kabuyoho.jp"""
 
@@ -60,6 +70,10 @@ class Stock:
     @functools.cached_property
     def report_target_page(self) -> Page:
         return ReportTargetPage(self.website, self.security_code)
+
+    @functools.cached_property
+    def report_dps_page(self) -> Page:
+        return ReportDpsPage(self.website, self.security_code)
 
     @property
     def price(self) -> Money | None:
@@ -164,3 +178,11 @@ class Stock:
         if amount is None:
             return None
         return str2money(amount.text)
+
+    @property
+    def actual_dividend_yield(self) -> float | None:
+        """Actual dividend yield(実績配当利回り)."""
+        amount = self.report_dps_page.soup.select_one('th:-soup-contains("実績配当利回り") + td')
+        if amount is None:
+            return None
+        return str2float(amount.text)
