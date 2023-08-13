@@ -11,10 +11,10 @@ url_directory = "reportTop"
 
 class TestReportTop:
     @pytest.mark.parametrize(
-        "security_code,price",
-        [(3260, Money("692", "JPY")), (5210, Money("1192", "JPY"))],
+        "security_code,expected",
+        [(6758, Money("12565", "JPY")), (7837, Money("485", "JPY"))],
     )
-    def test_stock_price(self, helpers, security_code, price):
+    def test_stock_price(self, helpers, security_code, expected):
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
@@ -23,13 +23,13 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).price == price
+            assert kabupy.kabuyoho.stock(security_code).price == expected
 
     @pytest.mark.parametrize(
-        "security_code,market_capitalization",
-        [(3260, 1_200_000_000), (5210, 13_300_000_000)],
+        "security_code,expected",
+        [(6758, 18.0), (7837, 0.7)],
     )
-    def test_market_capitalization(self, helpers, security_code, market_capitalization):
+    def test_expected_per(self, helpers, security_code, expected):
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
@@ -38,4 +38,19 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).market_capitalization == Money(market_capitalization, "JPY")
+            assert kabupy.kabuyoho.stock(security_code).expected_per == expected
+
+    @pytest.mark.parametrize(
+        "security_code,expected",
+        [(6758, Money("15_845_500_000_000", "JPY")), (7837, Money("2_200_000_000", "JPY"))],
+    )
+    def test_market_capitalization(self, helpers, security_code, expected):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/{url_directory}/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
+            assert kabupy.kabuyoho.stock(security_code).market_capitalization == expected
