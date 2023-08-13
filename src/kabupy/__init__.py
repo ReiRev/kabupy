@@ -4,6 +4,6 @@ from __future__ import annotations
 
 from .kabuyoho import Kabuyoho
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 kabuyoho = Kabuyoho()

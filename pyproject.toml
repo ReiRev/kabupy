@@ -69,7 +69,7 @@ fail_under = 100
 
 [tool.flake8]
 max-line-length = 120
-# select = "F,E,W,B,B901,B902,B903"
+select = "F,E,W,B,B901,B902,B903"
 exclude = [
     ".eggs",
     ".git",
@@ -103,7 +103,7 @@ testpaths = "tests"
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py{311,310,39,38},black
+envlist = py{311,310,39,38},black,isort
 requires =
     tox>4
 skip_missing_interpreters = True
@@ -113,7 +113,7 @@ python =
     3.8: py38
     3.9: py39
     3.10: py310
-    3.11: py311, black
+    3.11: py311, black, isort
 
 [testenv:py{311,310,39,38}]
 deps =
@@ -126,6 +126,12 @@ deps =
     black==23.3.0
 commands =
     black .
+
+[testenv:isort]
+deps =
+    isort
+commands =
+    isort .
 """
 
 [tool.pylint]

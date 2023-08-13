@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class Kabuyoho:
     """An object for kabuyoho.jp"""
 
-    base_url = "https://kabuyoho.jp/"
+    base_url = "https://kabuyoho.jp"
 
     def __init__(self) -> None:
         pass
@@ -37,7 +37,12 @@ class Stock:
     @property
     def report_top_url(self) -> str:
         """URL of reportTop page"""
-        return f"https://kabuyoho.jp/sp/reportTop?bcode={self.security_code}"
+        return f"{self.website.base_url}/sp/reportTop?bcode={self.security_code}"
+
+    @property
+    def report_target_url(self) -> str:
+        """URL of reportTop page"""
+        return f"{self.website.base_url}/sp/reportTarget?bcode={self.security_code}"
 
     @property
     def price(self) -> Money | None:
@@ -80,3 +85,95 @@ class Stock:
                 continue
             return str2money(description)
         return None
+
+    @property
+    def per_based_theoretical_stock_price(self) -> Money | None:
+        """PER based theoretical stock price(理論株価(PER基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one('tr>th:-soup-contains("理論株価(PER基準)") + td>span:-soup-contains("円")')
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def per_based_upside_target(self) -> Money | None:
+        """PER based upside target(上値目途(PER基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one(
+            'tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
+        )
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def per_based_downside_target(self) -> Money | None:
+        """PER based downside target(下値目途(PER基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one(
+            'tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
+        )
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def pbr_based_theoretical_stock_price(self) -> Money | None:
+        """PBR based theoretical stock price(理論株価(PBR基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one('tr>th:-soup-contains("理論株価(PBR基準)") + td>span:-soup-contains("円")')
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def pbr_based_upside_target(self) -> Money | None:
+        """PBR based upside target(上値目途(PBR基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one(
+            'tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
+        )
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def pbr_based_downside_target(self) -> Money | None:
+        """PBR based downside target(下値目途(PBR基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one(
+            'tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
+        )
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def price_target(self) -> Money | None:
+        """Price target: 目標株価(アナリストが発表した目標株価の平均値)"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td')
+        if amount is None:
+            return None
+        return str2money(amount.text)
