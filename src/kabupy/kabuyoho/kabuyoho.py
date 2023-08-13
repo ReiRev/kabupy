@@ -142,8 +142,11 @@ class Stock:
 
     @property
     def signal(self) -> str | None:
-        """Market Capitalization(時価総額)"""
-        return re.sub(r"\s+", "", self.term2description(self.report_top_page, "シグナル"))
+        """Signal: シグナル"""
+        res = self.term2description(self.report_top_page, "シグナル")
+        if res is None:
+            return None
+        return re.sub(r"\s+", "", res)
 
     @property
     def per_based_theoretical_stock_price(self) -> Money | None:
