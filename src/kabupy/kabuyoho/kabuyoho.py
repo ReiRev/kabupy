@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import functools
 import logging
+import re
 import urllib.parse
 
 from money import Money
@@ -138,6 +139,11 @@ class Stock:
         if amount is None:
             return None
         return str2money(amount)
+
+    @property
+    def signal(self) -> str | None:
+        """Market Capitalization(時価総額)"""
+        return re.sub(r"\s+", "", self.term2description(self.report_top_page, "シグナル"))
 
     @property
     def per_based_theoretical_stock_price(self) -> Money | None:

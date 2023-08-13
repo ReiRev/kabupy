@@ -114,3 +114,18 @@ class TestReportTop:
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).market_capitalization == expected
+
+    @pytest.mark.parametrize(
+        "security_code,expected",
+        [(6758, "売り継続"), (7837, "売り継続")],
+    )
+    def test_signal(self, helpers, security_code, expected):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/{url_directory}/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
+            assert kabupy.kabuyoho.stock(security_code).signal == expected
