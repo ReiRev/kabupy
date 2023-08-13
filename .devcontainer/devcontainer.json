@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.222.0/containers/python-3-miniconda
 {
-    "name": "Python Environment",
+    "name": "Kabupy Python Environment",
     "build": {
         "dockerfile": "Dockerfile",
         "context": ".."
@@ -22,7 +22,9 @@
                 "ryanluker.vscode-coverage-gutters",
                 "njpwerner.autodocstring",
                 "streetsidesoftware.code-spell-checker",
-                "tamasfe.even-better-toml"
+                "tamasfe.even-better-toml",
+                "github.vscode-github-actions",
+                "eamodio.gitlens"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "/usr/local/bin/python",
