@@ -87,6 +87,21 @@ class TestReportTop:
 
     @pytest.mark.parametrize(
         "security_code,expected",
+        [(6758, 22.6), (7837, 7.9)],
+    )
+    def test_equity_ratio(self, helpers, security_code, expected):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/{url_directory}/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
+            assert kabupy.kabuyoho.stock(security_code).equity_ratio == expected
+
+    @pytest.mark.parametrize(
+        "security_code,expected",
         [(6758, Money("15_845_500_000_000", "JPY")), (7837, Money("2_200_000_000", "JPY"))],
     )
     def test_market_capitalization(self, helpers, security_code, expected):
