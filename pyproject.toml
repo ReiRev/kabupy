@@ -31,6 +31,7 @@ test = [
     "flake8-formatter_junit_xml",
     "flake8",
     "flake8-pyproject",
+    "autoflake",
     "pre-commit==3.3.1",
     "pylint==2.17.4",
     "pylint_junit",
@@ -103,7 +104,7 @@ testpaths = "tests"
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py{311,310,39,38},black,isort
+envlist = py{311,310,39,38},isort,autoflake,black
 requires =
     tox>4
 skip_missing_interpreters = True
@@ -113,7 +114,7 @@ python =
     3.8: py38
     3.9: py39
     3.10: py310
-    3.11: py311, black, isort
+    3.11: py311, black, isort, autoflake
 
 [testenv:py{311,310,39,38}]
 deps =
@@ -132,7 +133,19 @@ deps =
     isort
 commands =
     isort .
+
+[testenv:autoflake]
+deps =
+    autoflake
+commands =
+    autoflake --in-place --recursive --verbose src tests
 """
+
+[tool.autoflake]
+ignore-init-module-imports = true
+remove-all-unused-imports = true
+remove-duplicate-keys = true
+remove-unused-variables = true
 
 [tool.pylint]
 extension-pkg-whitelist = [
