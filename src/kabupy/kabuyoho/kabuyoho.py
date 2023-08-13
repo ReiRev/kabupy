@@ -146,11 +146,19 @@ class Stock:
 
     @property
     def expected_ordinary_profit(self) -> Money | None:
-        """Market Capitalization: 時価総額."""
-        amount = self.report_top_page.soup.select_one('main dt:-soup-contains("予想経常利益") + dd>p')
+        """Market Capitalization: 予想経常利益(予)."""
+        amount = self.report_top_page.soup.select_one('main dt:-soup-contains("予想経常利益(予)") + dd>p')
         if amount is None:
             return None
-        return str2money(amount.text.split('円')[0])
+        return str2money(amount.text.split("円")[0])
+
+    @property
+    def expected_ordinary_profit_consensus(self) -> Money | None:
+        """Market Capitalization: 予想経常利益(コ)."""
+        amount = self.report_top_page.soup.select_one('main dt:-soup-contains("予想経常利益(コ)") + dd>p')
+        if amount is None:
+            return None
+        return str2money(amount.text.split("円")[0])
 
     @property
     def per_based_theoretical_stock_price(self) -> Money | None:

@@ -12,6 +12,8 @@ jpy_unit = str.maketrans({"百": "0" * 2, "千": "0" * 3, "万": "0" * 4, "億":
 
 def str2money(price: str) -> Money | None:
     """Convert str to JPY Money object"""
+    if not re.search(r"\d", price):
+        return None
     amount = price.translate(jpy_unit)
     amount = re.sub(r"\D", "", amount)
     if amount == "":
