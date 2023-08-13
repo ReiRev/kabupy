@@ -165,3 +165,15 @@ class Stock:
         if amount is None:
             return None
         return str2money(amount.text)
+
+    @property
+    def price_target(self) -> Money | None:
+        """Price target: 目標株価(アナリストが発表した目標株価の平均値)"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td')
+        if amount is None:
+            return None
+        return str2money(amount.text)

@@ -29,7 +29,8 @@
     "autoDocstring.docstringFormat": "google",
     "cSpell.words": [
         "kabupy",
-        "kabuyoho"
+        "kabuyoho",
+        "thead"
     ],
     "python.analysis.typeCheckingMode": "basic",
 }

@@ -133,3 +133,18 @@ class TestStock:
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).pbr_based_downside_target == pbr_based_downside_target
+
+    @pytest.mark.parametrize(
+        "security_code,price_target",
+        [(6758, Money("16197", "JPY")), (7837, None)],
+    )
+    def test_price_target(self, helpers, security_code, price_target):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/reportTarget/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            assert kabupy.kabuyoho.stock(security_code).price_target == price_target
