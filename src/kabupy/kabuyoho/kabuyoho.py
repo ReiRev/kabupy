@@ -82,11 +82,7 @@ class Stock:
 
     @property
     def price(self) -> Money | None:
-        """Price of the stock
-
-        Returns:
-            float | None: Price if found or None
-        """
+        """Price of the stock: 価格"""
         amount = self.report_top_page.soup.select_one('main li p:-soup-contains("株価","(","/",")") + p')
         if amount is None:
             return None
@@ -102,7 +98,7 @@ class Stock:
 
     @property
     def actual_pbr(self) -> float | None:
-        """Expected PER: PER(予)."""
+        """Actual PBR: PBR(実)."""
         amount = self.term2description(self.report_top_page, "PBR(実)")
         if amount is None:
             return None
@@ -110,7 +106,7 @@ class Stock:
 
     @property
     def actual_roa(self) -> float | None:
-        """Expected PER: PER(予)."""
+        """Actual ROA: ROA(実)."""
         amount = self.term2description(self.report_top_page, "ROA(実)")
         if amount is None:
             return None
@@ -118,7 +114,7 @@ class Stock:
 
     @property
     def actual_roe(self) -> float | None:
-        """Expected PER: PER(予)."""
+        """Actual ROE: ROE(実)."""
         amount = self.term2description(self.report_top_page, "ROE(実)")
         if amount is None:
             return None
@@ -126,7 +122,7 @@ class Stock:
 
     @property
     def equity_ratio(self) -> float | None:
-        """Expected PER: PER(予)."""
+        """Equity ratio: 自己資本率."""
         amount = self.term2description(self.report_top_page, "自己資本比率")
         if amount is None:
             return None
@@ -134,7 +130,7 @@ class Stock:
 
     @property
     def market_capitalization(self) -> Money | None:
-        """Market Capitalization(時価総額)"""
+        """Market Capitalization: 時価総額."""
         amount = self.term2description(self.report_top_page, "時価総額")
         if amount is None:
             return None
@@ -142,7 +138,7 @@ class Stock:
 
     @property
     def signal(self) -> str | None:
-        """Signal: シグナル"""
+        """Signal: シグナル."""
         res = self.term2description(self.report_top_page, "シグナル")
         if res is None:
             return None
