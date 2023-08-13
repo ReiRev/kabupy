@@ -105,7 +105,23 @@ class Stock:
         response.raise_for_status()
         html = response.text
         soup = BeautifulSoup(html, "html.parser")
-        amount = soup.select_one('tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ tr>td>span:-soup-contains("円")')
+        amount = soup.select_one(
+            'tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
+        )
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def per_based_downside_target(self) -> Money | None:
+        """PER based downside target(下値目途(PER基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one(
+            'tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
+        )
         if amount is None:
             return None
         return str2money(amount.text)
