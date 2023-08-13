@@ -15,7 +15,7 @@ class TestStock:
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                f"html/{security_code}.html",
+                f"html/reportTop/{security_code}.html",
             )
         )
         with requests_mock.Mocker() as m:
@@ -30,7 +30,7 @@ class TestStock:
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                f"html/{security_code}.html",
+                f"html/reportTop/{security_code}.html",
             )
         )
         with requests_mock.Mocker() as m:
