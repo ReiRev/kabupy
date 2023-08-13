@@ -125,3 +125,55 @@ class Stock:
         if amount is None:
             return None
         return str2money(amount.text)
+
+    @property
+    def pbr_based_theoretical_stock_price(self) -> Money | None:
+        """PBR based theoretical stock price(理論株価(PBR基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one('tr>th:-soup-contains("理論株価(PBR基準)") + td>span:-soup-contains("円")')
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def pbr_based_upside_target(self) -> Money | None:
+        """PBR based upside target(上値目途(PBR基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one(
+            'tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
+        )
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def pbr_based_downside_target(self) -> Money | None:
+        """PBR based downside target(下値目途(PBR基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one(
+            'tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
+        )
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def price_target(self) -> Money | None:
+        """Price target: 目標株価(アナリストが発表した目標株価の平均値)"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td')
+        if amount is None:
+            return None
+        return str2money(amount.text)
