@@ -85,3 +85,51 @@ class TestStock:
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).per_based_downside_target == per_based_downside_target
+
+    @pytest.mark.parametrize(
+        "security_code,pbr_based_theoretical_stock_price",
+        [(6758, Money("12797", "JPY")), (7837, Money("438", "JPY"))],
+    )
+    def test_pbr_based_theoretical_stock_price(self, helpers, security_code, pbr_based_theoretical_stock_price):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/reportTarget/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            assert (
+                kabupy.kabuyoho.stock(security_code).pbr_based_theoretical_stock_price
+                == pbr_based_theoretical_stock_price
+            )
+
+    @pytest.mark.parametrize(
+        "security_code,pbr_based_upside_target",
+        [(6758, Money("13542", "JPY")), (7837, Money("624", "JPY"))],
+    )
+    def test_pbr_based_upside_target(self, helpers, security_code, pbr_based_upside_target):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/reportTarget/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            assert kabupy.kabuyoho.stock(security_code).pbr_based_upside_target == pbr_based_upside_target
+
+    @pytest.mark.parametrize(
+        "security_code,pbr_based_downside_target",
+        [(6758, Money("12053", "JPY")), (7837, Money("253", "JPY"))],
+    )
+    def test_pbr_based_downside_target(self, helpers, security_code, pbr_based_downside_target):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/reportTarget/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            assert kabupy.kabuyoho.stock(security_code).pbr_based_downside_target == pbr_based_downside_target
