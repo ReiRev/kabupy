@@ -1,6 +1,5 @@
 {
     "editor.formatOnSave": true,
-    "editor.formatOnPaste": true,
     "files.trimTrailingWhitespace": true,
     "files.autoSave": "onFocusChange",
     "git.autofetch": true,
@@ -13,7 +12,6 @@
             "source.organizeImports": true
         },
     },
-    "python.formatting.provider": "black",
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "pylint.args": [
