@@ -6,38 +6,10 @@ from money import Money
 
 import kabupy
 
+url_directory = "reportTarget"
 
-class TestStock:
-    @pytest.mark.parametrize(
-        "security_code,price",
-        [(3260, Money("692", "JPY")), (5210, Money("1192", "JPY"))],
-    )
-    def test_stock_price(self, helpers, security_code, price):
-        text = helpers.html2text(
-            filename=os.path.join(
-                os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportTop/{security_code}.html",
-            )
-        )
-        with requests_mock.Mocker() as m:
-            m.get(f"https://kabuyoho.jp/sp/reportTop?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).price == price
 
-    @pytest.mark.parametrize(
-        "security_code,market_capitalization",
-        [(3260, 1_200_000_000), (5210, 13_300_000_000)],
-    )
-    def test_market_capitalization(self, helpers, security_code, market_capitalization):
-        text = helpers.html2text(
-            filename=os.path.join(
-                os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportTop/{security_code}.html",
-            )
-        )
-        with requests_mock.Mocker() as m:
-            m.get(f"https://kabuyoho.jp/sp/reportTop?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).market_capitalization == Money(market_capitalization, "JPY")
-
+class TestReportTarget:
     @pytest.mark.parametrize(
         "security_code,per_based_theoretical_stock_price",
         [(6758, Money("13438", "JPY")), (7837, None)],
@@ -46,7 +18,7 @@ class TestStock:
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportTarget/{security_code}.html",
+                f"html/{url_directory}/{security_code}.html",
             )
         )
         with requests_mock.Mocker() as m:
@@ -64,11 +36,11 @@ class TestStock:
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportTarget/{security_code}.html",
+                f"html/{url_directory}/{security_code}.html",
             )
         )
         with requests_mock.Mocker() as m:
-            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).per_based_upside_target == per_based_upside_target
 
     @pytest.mark.parametrize(
@@ -79,11 +51,11 @@ class TestStock:
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportTarget/{security_code}.html",
+                f"html/{url_directory}/{security_code}.html",
             )
         )
         with requests_mock.Mocker() as m:
-            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).per_based_downside_target == per_based_downside_target
 
     @pytest.mark.parametrize(
@@ -94,11 +66,11 @@ class TestStock:
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportTarget/{security_code}.html",
+                f"html/{url_directory}/{security_code}.html",
             )
         )
         with requests_mock.Mocker() as m:
-            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
             assert (
                 kabupy.kabuyoho.stock(security_code).pbr_based_theoretical_stock_price
                 == pbr_based_theoretical_stock_price
@@ -112,11 +84,11 @@ class TestStock:
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportTarget/{security_code}.html",
+                f"html/{url_directory}/{security_code}.html",
             )
         )
         with requests_mock.Mocker() as m:
-            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).pbr_based_upside_target == pbr_based_upside_target
 
     @pytest.mark.parametrize(
@@ -127,11 +99,11 @@ class TestStock:
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportTarget/{security_code}.html",
+                f"html/{url_directory}/{security_code}.html",
             )
         )
         with requests_mock.Mocker() as m:
-            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).pbr_based_downside_target == pbr_based_downside_target
 
     @pytest.mark.parametrize(
@@ -142,24 +114,9 @@ class TestStock:
         text = helpers.html2text(
             filename=os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportTarget/{security_code}.html",
+                f"html/{url_directory}/{security_code}.html",
             )
         )
         with requests_mock.Mocker() as m:
-            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).price_target == price_target
-
-    @pytest.mark.parametrize(
-        "security_code,actual_dividend_yield",
-        [(6758, 0.6), (7837, 0.0)],
-    )
-    def test_actual_dividend_yield(self, helpers, security_code, actual_dividend_yield):
-        text = helpers.html2text(
-            filename=os.path.join(
-                os.path.dirname(os.path.realpath(__file__)),
-                f"html/reportDps/{security_code}.html",
-            )
-        )
-        with requests_mock.Mocker() as m:
-            m.get(f"https://kabuyoho.jp/sp/reportDps?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).actual_dividend_yield == actual_dividend_yield
