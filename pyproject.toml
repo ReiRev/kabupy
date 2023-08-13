@@ -19,10 +19,9 @@ classifiers = [
 ]
 requires-python = ">=3.8.1"
 dynamic = ["version"]
-dependencies = ["beautifulsoup4", "money"]
+dependencies = ["requests", "beautifulsoup4", "money"]
 
 [project.optional-dependencies]
-spark = ["pyspark>=3.0.0"]
 test = [
     "bandit[toml]==1.7.5",
     "black==23.3.0",
@@ -70,7 +69,7 @@ fail_under = 100
 
 [tool.flake8]
 max-line-length = 120
-select = "F,E,W,B,B901,B902,B903"
+# select = "F,E,W,B,B901,B902,B903"
 exclude = [
     ".eggs",
     ".git",
@@ -93,53 +92,33 @@ venv = "env37"
 reportMissingImports = true
 reportMissingTypeStubs = false
 
-pythonVersion = "3.7"
+pythonVersion = "3.11"
 pythonPlatform = "Linux"
 
 executionEnvironments = [{ root = "src" }]
 
 [tool.pytest.ini_options]
-addopts = "--cov-report xml:coverage.xml --cov src --cov-fail-under 0 --cov-append -m 'not integration'"
 pythonpath = ["src"]
 testpaths = "tests"
-junit_family = "xunit2"
-markers = [
-    "integration: marks as integration test",
-    "notebooks: marks as notebook test",
-    "gpu: marks as gpu test",
-    "spark: marks tests which need Spark",
-    "slow: marks tests as slow",
-    "unit: fast offline tests",
-]
-
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py, integration, spark, all
+envlist = py{311,310,39,38},black
+requires =
+    tox>4
+skip_missing_interpreters = True
 
-[testenv]
-commands =
-    pytest -m "not integration and not spark" {posargs}
-
-[testenv:integration]
-commands =
-    pytest -m "integration" {posargs}
-
-[testenv:spark]
-extras = spark
-setenv =
-       PYSPARK_DRIVER_PYTHON = {envpython}
-       PYSPARK_PYTHON = {envpython}
-commands =
-    pytest -m "spark" {posargs}
-
-[testenv:all]
-extras = all
-setenv =
-       PYSPARK_DRIVER_PYTHON = {envpython}
-       PYSPARK_PYTHON = {envpython}
+[testenv:py{311,310,39,38}]
+deps =
+    .[test]
 commands =
     pytest {posargs}
+
+[testenv:black]
+deps =
+    black==23.3.0
+commands =
+    black .
 """
 
 [tool.pylint]
