@@ -125,18 +125,21 @@ commands =
 [testenv:black]
 deps =
     black==23.3.0
+skip_install = true
 commands =
     black .
 
 [testenv:isort]
 deps =
     isort
+skip_install = true
 commands =
     isort .
 
 [testenv:autoflake]
 deps =
     autoflake
+skip_install = true
 commands =
     autoflake --in-place --recursive --verbose src tests
 """
