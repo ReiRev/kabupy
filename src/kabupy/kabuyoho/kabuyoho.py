@@ -108,6 +108,14 @@ class Stock:
         return str2float(amount)
 
     @property
+    def actual_roa(self) -> float | None:
+        """Expected PER: PER(予)."""
+        amount = self.term2description(self.report_top_page, "ROA(実)")
+        if amount is None:
+            return None
+        return str2float(amount)
+
+    @property
     def market_capitalization(self) -> Money | None:
         """Market Capitalization(時価総額)"""
         amount = self.term2description(self.report_top_page, "時価総額")
