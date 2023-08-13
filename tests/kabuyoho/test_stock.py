@@ -1,9 +1,10 @@
+import os
+
 import pytest
 import requests_mock
 from money import Money
 
 import kabupy
-import os
 
 
 class TestStock:
@@ -36,3 +37,21 @@ class TestStock:
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/reportTop?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).market_capitalization == Money(market_capitalization, "JPY")
+
+    @pytest.mark.parametrize(
+        "security_code,per_based_theoretical_stock_price",
+        [(6758, Money("13438", "JPY")), (7837, None)],
+    )
+    def test_theoretical_stock_price(self, helpers, security_code, per_based_theoretical_stock_price):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/reportTarget/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
+            assert (
+                kabupy.kabuyoho.stock(security_code).per_based_theoretical_stock_price
+                == per_based_theoretical_stock_price
+            )
