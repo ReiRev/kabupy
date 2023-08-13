@@ -88,12 +88,24 @@ class Stock:
 
     @property
     def per_based_theoretical_stock_price(self) -> Money | None:
-        """Theoretical stock price(理論株価)"""
+        """PER based theoretical stock price(理論株価(PER基準))"""
         response = requests.get(self.report_target_url, timeout=10)
         response.raise_for_status()
         html = response.text
         soup = BeautifulSoup(html, "html.parser")
         amount = soup.select_one('tr>th:-soup-contains("理論株価(PER基準)") + td>span:-soup-contains("円")')
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
+    def per_based_upside_target(self) -> Money | None:
+        """PER based upside target(上値目途(PER基準))"""
+        response = requests.get(self.report_target_url, timeout=10)
+        response.raise_for_status()
+        html = response.text
+        soup = BeautifulSoup(html, "html.parser")
+        amount = soup.select_one('tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ tr>td>span:-soup-contains("円")')
         if amount is None:
             return None
         return str2money(amount.text)
