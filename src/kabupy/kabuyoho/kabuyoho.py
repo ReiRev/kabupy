@@ -145,6 +145,14 @@ class Stock:
         return re.sub(r"\s+", "", res)
 
     @property
+    def expected_ordinary_profit(self) -> Money | None:
+        """Market Capitalization: 時価総額."""
+        amount = self.report_top_page.soup.select_one('main dt:-soup-contains("予想経常利益") + dd>p')
+        if amount is None:
+            return None
+        return str2money(amount.text.split('円')[0])
+
+    @property
     def per_based_theoretical_stock_price(self) -> Money | None:
         """PER based theoretical stock price(理論株価(PER基準))"""
         amount = self.report_target_page.soup.select_one(

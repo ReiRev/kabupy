@@ -7,7 +7,7 @@ from money import Money
 
 __all__ = ["str2money", "str2float"]
 
-jpy_unit = str.maketrans({"千": "0" * 3, "万": "0" * 5, "億": "0" * 8})
+jpy_unit = str.maketrans({"百": "0" * 2, "千": "0" * 3, "万": "0" * 4, "億": "0" * 8})
 
 
 def str2money(price: str) -> Money | None:
