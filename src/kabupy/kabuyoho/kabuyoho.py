@@ -6,40 +6,44 @@ import logging
 import re
 import urllib.parse
 
-import requests
-from bs4 import BeautifulSoup
 from money import Money
 
+from ..base import Page, Website
 from ..exceptions import InvalidElementError
 from ..util import str2money
 
 logger = logging.getLogger(__name__)
 
 
-class Kabuyoho:
+class Kabuyoho(Website):
     """An object for kabuyoho.jp"""
 
-    base_url = "https://kabuyoho.jp"
-
     def __init__(self) -> None:
-        pass
+        self.url = "https://kabuyoho.jp"
 
     def stock(self, security_code: str | int) -> Stock:
         """Return Stock object"""
         return Stock(self, security_code)
 
 
-class ReportTargetPage:
+class ReportTopPage(Page):
     """Report target page object."""
 
-    def __init__(self, website: Kabuyoho, security_code: str | int) -> None:
+    def __init__(self, website: Website, security_code: str | int) -> None:
         self.website = website
         self.security_code = security_code
-        self.url = urllib.parse.urljoin(self.website.base_url, f"sp/reportTarget?bcode={self.security_code}")
-        response = requests.get(self.url, timeout=10)
-        response.raise_for_status()
-        self.html = response.text
-        self.soup = BeautifulSoup(self.html, "html.parser")
+        self.url = urllib.parse.urljoin(self.website.url, f"sp/reportTop?bcode={self.security_code}")
+        super().__init__()
+
+
+class ReportTargetPage(Page):
+    """Report target page object."""
+
+    def __init__(self, website: Website, security_code: str | int) -> None:
+        self.website = website
+        self.security_code = security_code
+        self.url = urllib.parse.urljoin(self.website.url, f"sp/reportTarget?bcode={self.security_code}")
+        super().__init__()
 
 
 class Stock:
@@ -49,18 +53,12 @@ class Stock:
         self.security_code = str(security_code)
         self.website = website
 
-    @property
-    def report_top_url(self) -> str:
-        """URL of reportTop page"""
-        return f"{self.website.base_url}/sp/reportTop?bcode={self.security_code}"
-
-    @property
-    def report_target_url(self) -> str:
-        """URL of reportTop page"""
-        return f"{self.website.base_url}/sp/reportTarget?bcode={self.security_code}"
+    @functools.cached_property
+    def report_top_page(self) -> Page:
+        return ReportTopPage(self.website, self.security_code)
 
     @functools.cached_property
-    def report_target_page(self):
+    def report_target_page(self) -> Page:
         return ReportTargetPage(self.website, self.security_code)
 
     @property
@@ -70,10 +68,7 @@ class Stock:
         Returns:
             float | None: Price if found or None
         """
-        response = requests.get(self.report_top_url, timeout=10)
-        response.raise_for_status()
-        html = response.text
-        soup = BeautifulSoup(html, "html.parser")
+        soup = self.report_top_page.soup
         titles = soup.find_all("dt")
         descriptions = soup.find_all("dd")
         titles = [re.sub(r"\s", "", t.text) for t in titles]
@@ -89,10 +84,7 @@ class Stock:
     @property
     def market_capitalization(self) -> Money | None:
         """Market Capitalization(時価総額)"""
-        response = requests.get(self.report_top_url, timeout=10)
-        response.raise_for_status()
-        html = response.text
-        soup = BeautifulSoup(html, "html.parser")
+        soup = self.report_top_page.soup
         titles = soup.find_all("dt")
         descriptions = soup.find_all("dd")
         titles = [re.sub(r"\s", "", t.text) for t in titles]
