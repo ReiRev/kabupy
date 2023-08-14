@@ -1,2 +1,2 @@
-class InvalidElementError(Exception):
+class KabupyError(Exception):
     pass

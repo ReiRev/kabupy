@@ -9,6 +9,11 @@ class Helpers:
         with open(filename, "r", encoding="utf-8") as f:
             return f.read()
 
+    @staticmethod
+    def excel2bytes(filename: str):
+        with open(filename, "rb") as f:
+            return f.read()
+
 
 @pytest.fixture
 def helpers():
