@@ -230,7 +230,7 @@ class Stock:
 
     @property
     def average_analyst_rating(self) -> float | None:
-        """Price target: 目標株価(アナリストが発表した目標株価の平均値)"""
+        """Average analyst rating: レーティング(平均)"""
         amount = self.report_target_page.soup.select_one(
             'main section:has(h1:-soup-contains("レーティング")) th:-soup-contains("平均") + td'
         )
