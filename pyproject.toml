@@ -19,7 +19,7 @@ classifiers = [
 ]
 requires-python = ">=3.8.1"
 dynamic = ["version"]
-dependencies = ["requests", "beautifulsoup4", "money"]
+dependencies = ["requests", "beautifulsoup4", "money", "pandas", "xlrd"]
 
 [project.optional-dependencies]
 test = [
