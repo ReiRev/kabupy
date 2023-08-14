@@ -174,3 +174,18 @@ class TestReportTarget:
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
             assert kabupy.kabuyoho.stock(security_code).expected_eps == expected
+
+    @pytest.mark.parametrize(
+        "security_code,expected",
+        [(6758, Money("777.1", "JPY")), (7837, None)],
+    )
+    def test_analyst_expected_eps(self, helpers, security_code, expected):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/{url_directory}/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
+            assert kabupy.kabuyoho.stock(security_code).analyst_expected_eps == expected

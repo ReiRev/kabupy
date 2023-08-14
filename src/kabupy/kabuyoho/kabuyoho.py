@@ -241,6 +241,16 @@ class Stock:
         return str2money(amount.text)
 
     @property
+    def analyst_expected_eps(self) -> Money | None:
+        """Analyst expected EPS: EPS(アナリスト12ヶ月後予想)"""
+        amount = self.report_target_page.soup.select_one(
+            'main h2:-soup-contains("株価指標")+table th:-soup-contains("EPS ※") + td'
+        )
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @property
     def price_target(self) -> Money | None:
         """Price target: 目標株価(アナリストが発表した目標株価の平均値)"""
         amount = self.report_target_page.soup.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td')
