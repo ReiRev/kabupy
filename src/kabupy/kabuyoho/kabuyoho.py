@@ -229,6 +229,16 @@ class Stock:
         return str2money(amount.text)
 
     @property
+    def average_analyst_rating(self) -> float | None:
+        """Price target: 目標株価(アナリストが発表した目標株価の平均値)"""
+        amount = self.report_target_page.soup.select_one(
+            'main section:has(h1:-soup-contains("レーティング")) th:-soup-contains("平均") + td'
+        )
+        if amount is None:
+            return None
+        return str2float(amount.text)
+
+    @property
     def actual_dividend_yield(self) -> float | None:
         """Actual dividend yield(実績配当利回り)."""
         amount = self.report_dps_page.soup.select_one('th:-soup-contains("実績配当利回り") + td')
