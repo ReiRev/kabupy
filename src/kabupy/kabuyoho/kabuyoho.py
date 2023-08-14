@@ -153,7 +153,7 @@ class Stock:
         return str2money(amount.text.split("円")[0])
 
     @property
-    def expected_ordinary_profit_consensus(self) -> Money | None:
+    def consensus_expected_ordinary_profit(self) -> Money | None:
         """Market Capitalization: 予想経常利益(コ)."""
         amount = self.report_top_page.soup.select_one('main dt:-soup-contains("予想経常利益(コ)") + dd>p')
         if amount is None:
