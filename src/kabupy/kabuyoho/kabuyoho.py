@@ -239,6 +239,19 @@ class Stock:
         return str2float(amount.text)
 
     @property
+    def analyst_count(self) -> int | None:
+        """Average count: レーティング(人数)"""
+        amount = self.report_target_page.soup.select_one(
+            'main section:has(h1:-soup-contains("レーティング")) th:-soup-contains("人数") + td'
+        )
+        if amount is None:
+            return None
+        amount = re.sub(r"\D", "", amount.text)
+        if amount == "":
+            amount = "0"
+        return int(amount)
+
+    @property
     def actual_dividend_yield(self) -> float | None:
         """Actual dividend yield(実績配当利回り)."""
         amount = self.report_dps_page.soup.select_one('th:-soup-contains("実績配当利回り") + td')
