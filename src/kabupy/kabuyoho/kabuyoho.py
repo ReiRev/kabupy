@@ -164,7 +164,9 @@ class Stock:
     def per_based_theoretical_stock_price(self) -> Money | None:
         """PER based theoretical stock price(理論株価(PER基準))"""
         amount = self.report_target_page.soup.select_one(
-            'tr>th:-soup-contains("理論株価(PER基準)") + td>span:-soup-contains("円")'
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr>th:-soup-contains("理論株価(PER基準)") + '
+            'td>span:-soup-contains("円")'
         )
         if amount is None:
             return None
@@ -174,7 +176,9 @@ class Stock:
     def per_based_upside_target(self) -> Money | None:
         """PER based upside target(上値目途(PER基準))"""
         amount = self.report_target_page.soup.select_one(
-            'tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
+            'tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
         )
         if amount is None:
             return None
@@ -184,7 +188,9 @@ class Stock:
     def per_based_downside_target(self) -> Money | None:
         """PER based downside target(下値目途(PER基準))"""
         amount = self.report_target_page.soup.select_one(
-            'tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
+            'tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
         )
         if amount is None:
             return None
@@ -194,7 +200,9 @@ class Stock:
     def pbr_based_theoretical_stock_price(self) -> Money | None:
         """PBR based theoretical stock price(理論株価(PBR基準))"""
         amount = self.report_target_page.soup.select_one(
-            'tr>th:-soup-contains("理論株価(PBR基準)") + td>span:-soup-contains("円")'
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr>th:-soup-contains("理論株価(PBR基準)") + '
+            'td>span:-soup-contains("円")'
         )
         if amount is None:
             return None
@@ -204,7 +212,9 @@ class Stock:
     def pbr_based_upside_target(self) -> Money | None:
         """PBR based upside target(上値目途(PBR基準))"""
         amount = self.report_target_page.soup.select_one(
-            'tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
+            'tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
         )
         if amount is None:
             return None
@@ -214,7 +224,9 @@ class Stock:
     def pbr_based_downside_target(self) -> Money | None:
         """PBR based downside target(下値目途(PBR基準))"""
         amount = self.report_target_page.soup.select_one(
-            'tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
+            'tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
         )
         if amount is None:
             return None
@@ -224,7 +236,7 @@ class Stock:
     def actual_bps(self) -> Money | None:
         """Actual BPS: BPS(実績)"""
         amount = self.report_target_page.soup.select_one(
-            'main h2:-soup-contains("株価指標")+table th:-soup-contains("BPS(実績)") + td'
+            'main h2:-soup-contains("株価指標") + ' 'table th:-soup-contains("BPS(実績)") + td'
         )
         if amount is None:
             return None
