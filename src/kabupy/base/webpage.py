@@ -1,4 +1,4 @@
-"""Base class for website"""
+"""Base class for webpage"""
 from __future__ import annotations
 
 from abc import ABC
