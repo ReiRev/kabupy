@@ -23,7 +23,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/reportTarget?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).per_based_theoretical_stock_price == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.per_based_theoretical_stock_price == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -38,7 +38,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).per_based_upside_target == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.per_based_upside_target == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -53,7 +53,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).per_based_downside_target == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.per_based_downside_target == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -68,7 +68,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).pbr_based_theoretical_stock_price == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.pbr_based_theoretical_stock_price == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -83,7 +83,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).pbr_based_upside_target == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.pbr_based_upside_target == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -98,7 +98,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).pbr_based_downside_target == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.pbr_based_downside_target == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -113,7 +113,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).price_target == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.price_target == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -128,7 +128,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).average_analyst_rating == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.average_analyst_rating == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -143,7 +143,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).analyst_count == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.analyst_count == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -158,7 +158,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).actual_bps == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.actual_bps == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -173,7 +173,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).expected_eps == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.expected_eps == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -188,7 +188,7 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).analyst_expected_eps == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.analyst_expected_eps == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -203,4 +203,4 @@ class TestReportTarget:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).analyst_expected_epr == expected
+            assert kabupy.kabuyoho.stock(security_code).report_target.analyst_expected_epr == expected

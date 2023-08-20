@@ -20,7 +20,7 @@ class TestReportDps:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/reportDps?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).actual_dividend_yield == actual_dividend_yield
+            assert kabupy.kabuyoho.stock(security_code).report_dps.actual_dividend_yield == actual_dividend_yield
 
     @pytest.mark.parametrize(
         "security_code,expected_dividend_yield",
@@ -35,7 +35,7 @@ class TestReportDps:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/reportDps?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).expected_dividend_yield == expected_dividend_yield
+            assert kabupy.kabuyoho.stock(security_code).report_dps.expected_dividend_yield == expected_dividend_yield
 
     @pytest.mark.parametrize(
         "security_code,dividend_payout_ratio",
@@ -50,4 +50,4 @@ class TestReportDps:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/reportDps?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).dividend_payout_ratio == dividend_payout_ratio
+            assert kabupy.kabuyoho.stock(security_code).report_dps.dividend_payout_ratio == dividend_payout_ratio
