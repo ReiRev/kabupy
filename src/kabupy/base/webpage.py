@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class Page(ABC):
+class Webpage(ABC):
     """Base class for website"""
 
     url: str

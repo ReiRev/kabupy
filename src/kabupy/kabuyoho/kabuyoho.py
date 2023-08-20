@@ -8,7 +8,7 @@ import urllib.parse
 
 from money import Money
 
-from ..base import Page, Website
+from ..base import Webpage, Website
 from ..util import str2float, str2money
 
 logger = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ class Kabuyoho(Website):
         return Stock(self, security_code)
 
 
-class ReportTopPage(Page):
+class ReportTopPage(Webpage):
     """Report target page object."""
 
     def __init__(self, website: Website, security_code: str | int) -> None:
@@ -35,7 +35,7 @@ class ReportTopPage(Page):
         super().__init__()
 
 
-class ReportTargetPage(Page):
+class ReportTargetPage(Webpage):
     """Report target page object."""
 
     def __init__(self, website: Website, security_code: str | int) -> None:
@@ -45,7 +45,7 @@ class ReportTargetPage(Page):
         super().__init__()
 
 
-class ReportDpsPage(Page):
+class ReportDpsPage(Webpage):
     """Report target page object."""
 
     def __init__(self, website: Website, security_code: str | int) -> None:
@@ -62,22 +62,22 @@ class Stock:
         self.security_code = str(security_code)
         self.website = website
 
-    def term2description(self, page: Page, term: str) -> str | None:
+    def term2description(self, page: Webpage, term: str) -> str | None:
         res = self.report_top_page.soup.select_one(f'main dt:-soup-contains("{term}") + dd')
         if res is None:
             return None
         return res.text
 
     @functools.cached_property
-    def report_top_page(self) -> Page:
+    def report_top_page(self) -> Webpage:
         return ReportTopPage(self.website, self.security_code)
 
     @functools.cached_property
-    def report_target_page(self) -> Page:
+    def report_target_page(self) -> Webpage:
         return ReportTargetPage(self.website, self.security_code)
 
     @functools.cached_property
-    def report_dps_page(self) -> Page:
+    def report_dps_page(self) -> Webpage:
         return ReportDpsPage(self.website, self.security_code)
 
     @property
