@@ -18,6 +18,7 @@ class TestReportTop:
                 {
                     "price": Money("12565", "JPY"),
                     "name": "ソニーグループ",
+                    "security_code": "6758",
                     "expected_per": 18.0,
                     "actual_pbr": 2.21,
                     "actual_roa": 3.00,
@@ -34,6 +35,7 @@ class TestReportTop:
                 {
                     "price": Money("485", "JPY"),
                     "name": "アールシーコア",
+                    "security_code": "7837",
                     "expected_per": 0.7,
                     "actual_pbr": 2.33,
                     "actual_roa": 11.53,
