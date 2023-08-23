@@ -1,10 +1,11 @@
-"""Scraper for https://kabuyoho.jp/sp/reportTop"""
+"""Scraper for https://kabuyoho.jp/sp/reportDps"""
 from __future__ import annotations
 
 import logging
 import urllib.parse
 
 from ..base import Website, webpage_property
+from ..util import str2float
 from .kabuyoho_webpage import KabuyohoWebpage
 
 logger = logging.getLogger(__name__)

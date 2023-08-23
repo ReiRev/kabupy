@@ -3,10 +3,8 @@ from __future__ import annotations
 
 import functools
 import logging
-import urllib.parse
 
 from ..base import Website
-from .kabuyoho_webpage import KabuyohoWebpage
 from .report_dps import ReportDps
 from .report_target import ReportTarget
 from .report_top import ReportTop
@@ -25,16 +23,6 @@ class Kabuyoho(Website):
         return Stock(self, security_code)
 
 
-class ReportDpsPage(KabuyohoWebpage):
-    """Report target page object."""
-
-    def __init__(self, website: Website, security_code: str | int) -> None:
-        self.website = website
-        self.security_code = security_code
-        self.url = urllib.parse.urljoin(self.website.url, f"sp/reportDps?bcode={self.security_code}")
-        super().__init__()
-
-
 class Stock:
     """Stock object for kabuyoho.jp"""
 
@@ -43,13 +31,13 @@ class Stock:
         self.website = website
 
     @functools.cached_property
-    def report_top(self) -> KabuyohoWebpage:
+    def report_top(self) -> ReportTop:
         return ReportTop(self.website, self.security_code)
 
     @functools.cached_property
-    def report_target(self) -> KabuyohoWebpage:
+    def report_target(self) -> ReportTarget:
         return ReportTarget(self.website, self.security_code)
 
     @functools.cached_property
-    def report_dps(self) -> KabuyohoWebpage:
+    def report_dps(self) -> ReportDps:
         return ReportDps(self.website, self.security_code)
