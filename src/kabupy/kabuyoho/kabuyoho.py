@@ -5,7 +5,6 @@ import functools
 import logging
 
 from ..base import Website
-
 from .report_dps import ReportDps
 from .report_target import ReportTarget
 from .report_top import ReportTop
@@ -41,3 +40,4 @@ class Stock:
 
     @functools.cached_property
     def report_dps(self) -> ReportDps:
+        return ReportDps(self.website, self.security_code)
