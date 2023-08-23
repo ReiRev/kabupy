@@ -2,6 +2,7 @@ import os
 
 import pytest
 import requests_mock
+from datetime import datetime
 from money import Money
 
 import kabupy
@@ -19,6 +20,7 @@ class TestReportTop:
                     "price": Money("12565", "JPY"),
                     "name": "ソニーグループ",
                     "security_code": "6758",
+                    "earnings_release_date": datetime(2023, 8, 9),
                     "expected_per": 18.0,
                     "actual_pbr": 2.21,
                     "actual_roa": 3.00,
@@ -36,6 +38,7 @@ class TestReportTop:
                     "price": Money("485", "JPY"),
                     "name": "アールシーコア",
                     "security_code": "7837",
+                    "earnings_release_date": datetime(2023, 8, 14),
                     "expected_per": 0.7,
                     "actual_pbr": 2.33,
                     "actual_roa": 11.53,

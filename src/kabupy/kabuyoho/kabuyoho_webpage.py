@@ -1,6 +1,7 @@
 """Base class for webpage"""
 from __future__ import annotations
-
+import re
+from datetime import datetime
 from money import Money
 
 from ..base import Webpage, webpage_property
@@ -33,3 +34,15 @@ class KabuyohoWebpage(Webpage):
         if res is None:
             return None
         return res.text
+
+    @webpage_property
+    def earnings_release_date(self) -> datetime | None:
+        """Earnings release date: 決算発表日"""
+        res = self.soup.select_one(f"main ul:-soup-contains('{self.security_code}') > li:last-of-type")
+        if res is None:
+            return None
+        match = re.search(r"(\d{4})/(\d{2})/(\d{2})", res.text)
+        if match:
+            year, month, day = match.groups()
+            return datetime(int(year), int(month), int(day))
+        return None
