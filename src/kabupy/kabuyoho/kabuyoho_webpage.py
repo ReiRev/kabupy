@@ -10,6 +10,8 @@ from ..util import str2money
 class KabuyohoWebpage(Webpage):
     """Base class for kabuyoho webpage"""
 
+    security_code: str
+
     def term2description(self, term: str) -> str | None:
         res = self.soup.select_one(f'main dt:-soup-contains("{term}") + dd')
         if res is None:
@@ -23,3 +25,11 @@ class KabuyohoWebpage(Webpage):
         if amount is None:
             return None
         return str2money(amount.text)
+
+    @webpage_property
+    def name(self) -> str | None:
+        """Name of the stock: 銘柄名"""
+        res = self.soup.select_one(f"main ul:-soup-contains('{self.security_code}') > li")
+        if res is None:
+            return None
+        return res.text
