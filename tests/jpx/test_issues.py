@@ -39,7 +39,7 @@ class TestIssues:
                 "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls", content=bytes
             )
             assert kabupy.jpx.issues
-            assert kabupy.jpx.issues[0]['security_code'] == 1234
-            assert kabupy.jpx.issues[1]['security_code'] == 1333
-            assert kabupy.jpx.issues[0]['name'] == 'Foo'
-            assert kabupy.jpx.issues[1]['name'] == 'Bar'
+            assert kabupy.jpx.issues[0]["security_code"] == 1234
+            assert kabupy.jpx.issues[1]["security_code"] == 1333
+            assert kabupy.jpx.issues[0]["name"] == "Foo"
+            assert kabupy.jpx.issues[1]["name"] == "Bar"

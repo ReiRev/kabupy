@@ -23,7 +23,7 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).price == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.price == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -38,7 +38,7 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).expected_per == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.expected_per == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -53,7 +53,7 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).actual_pbr == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.actual_pbr == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -68,7 +68,7 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).actual_roa == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.actual_roa == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -83,7 +83,7 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).actual_roe == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.actual_roe == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -98,7 +98,7 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).equity_ratio == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.equity_ratio == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -113,7 +113,7 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).market_capitalization == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.market_capitalization == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -128,7 +128,7 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).signal == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.signal == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -143,7 +143,7 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).expected_ordinary_profit == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.expected_ordinary_profit == expected
 
     @pytest.mark.parametrize(
         "security_code,expected",
@@ -158,4 +158,4 @@ class TestReportTop:
         )
         with requests_mock.Mocker() as m:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
-            assert kabupy.kabuyoho.stock(security_code).consensus_expected_ordinary_profit == expected
+            assert kabupy.kabuyoho.stock(security_code).report_top.consensus_expected_ordinary_profit == expected
