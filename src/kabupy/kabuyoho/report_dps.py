@@ -10,6 +10,8 @@ from .kabuyoho_webpage import KabuyohoWebpage
 
 logger = logging.getLogger(__name__)
 
+from ..util import str2float
+
 
 class ReportDps(KabuyohoWebpage):
     """Report target page object."""
