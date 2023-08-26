@@ -33,6 +33,12 @@ class TestReportTop:
                     "consensus_expected_ordinary_profit": Money("1_223_695_000_000", "JPY"),
                     "target_price": Money("16_197", "JPY"),
                     "business_category": "電気機器",
+                    "business_description": "世界的なエレクトロニクス企業。エレクトロニクス（半導体・電子デバイス、モバイル、情報通信、テレビ・音響）、"
+                    "エンターテインメント（ゲーム、映画、音楽）、金融（銀行・保険）分野でグローバルビジネス。",
+                    "products": [
+                        "ゲーム＆ネットワークサービス（家庭用ゲーム機「PS5」、ゲームソフト、ネットワークサービス、周辺装置・機器）",
+                        "イメージング＆センシングソリューション（CMOSイメージセンサー、LSI/IC/モジュール、レーザーダイオード、ディスプレイデバイス、ボードコンピュータ）",
+                    ],
                 },
             ),
             (
@@ -54,6 +60,12 @@ class TestReportTop:
                     "consensus_expected_ordinary_profit": None,
                     "target_price": None,
                     "business_category": "その他製品",
+                    "business_description": "国内トップのログハウスメーカー。自然材（無垢材）を多用した「BESS」ブランドの自然派個性住宅（ログハウス、エポックス）の"
+                    "企画・開発・設計・販売、タイムシェア別荘「フェザント山中湖」の販売・運営。",
+                    "products": [
+                        "「BESSシリーズ」ログハウス（COUNTRY LOG、G-LOG）",
+                        "「BESSシリーズ」エポックス（WONDER DEVICE、倭様「程々の家」、BESS DOME、平小屋「栖ログ」）",
+                    ],
                 },
             ),
         ],

@@ -118,3 +118,19 @@ class ReportTop(KabuyohoWebpage):
         if res is None:
             return None
         return re.sub(r"業種：", "", res.text)
+
+    @webpage_property
+    # 事業内容の説明
+    def business_description(self) -> str | None:
+        """Business description: 事業内容の説明."""
+        res = self.soup.select_one('main h1:-soup-contains("基本情報") ~ div h2:-soup-contains("業種")+p')
+        if res is None:
+            return None
+        return re.sub(r"\s+", "", res.text)
+
+    @webpage_property
+    # 取扱商品
+    def products(self) -> list[str] | None:
+        """Products: 取扱い商品."""
+        res = self.soup.select('div:-soup-contains("取扱い商品") + div > p')
+        return [re.sub(r"^・", "", r.text) for r in res]
