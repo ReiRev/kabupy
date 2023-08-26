@@ -81,6 +81,7 @@ class TestReportTop:
                     "current_term_company_performance_forecast": "減益",
                     "analyst_company_performance_forecast_comparison": "強気",
                     "price_level_to_target": "割安",
+                    "price_level_to_pbr_based_theoretical_price": "妥当水準",
                 },
             ),
             (
@@ -130,6 +131,7 @@ class TestReportTop:
                     "current_term_company_performance_forecast": "黒字転換",
                     "analyst_company_performance_forecast_comparison": None,
                     "price_level_to_target": None,
+                    "price_level_to_pbr_based_theoretical_price": "やや割高",
                 },
             ),
         ],

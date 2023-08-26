@@ -189,7 +189,18 @@ class ReportTop(KabuyohoWebpage):
     def price_level_to_target(self) -> str | None:
         """Current price to target price: 目標株価に対する現在の価格が割高か割安か."""
         res = self.soup.select_one(
-            'main div:-soup-contains("目標株価") + div ' 'h2:-soup-contains("アナリスト評価") + div dt:-soup-contains("目標株価") + dd'
+            'main div:-soup-contains("目標株価") + div h2:-soup-contains("アナリスト評価") + div dt:-soup-contains("目標株価") + dd'
+        )
+        if res is None:
+            return None
+        res = re.sub(r"\s+", "", res.text)
+        return res if res != "--" else None
+
+    @webpage_property
+    def price_level_to_pbr_based_theoretical_price(self) -> str | None:
+        """Current price to theoretical price: 理論株価に対する現在の価格が割高か割安か."""
+        res = self.soup.select_one(
+            'main div:-soup-contains("目標株価") + div h2:-soup-contains("理論株価") + div dt:-soup-contains("PBR基準") + dd'
         )
         if res is None:
             return None
