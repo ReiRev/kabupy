@@ -83,6 +83,7 @@ class TestReportTop:
                     "price_level_to_target": "割安",
                     "price_level_to_pbr_based_theoretical_price": "妥当水準",
                     "price_level_to_per_based_theoretical_price": "やや割安",
+                    "risk_on_relative_index": None,
                 },
             ),
             (
@@ -134,6 +135,7 @@ class TestReportTop:
                     "price_level_to_target": None,
                     "price_level_to_pbr_based_theoretical_price": "やや割高",
                     "price_level_to_per_based_theoretical_price": None,
+                    "risk_on_relative_index": "高値圏警戒",
                 },
             ),
         ],

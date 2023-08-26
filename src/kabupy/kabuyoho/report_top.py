@@ -217,3 +217,16 @@ class ReportTop(KabuyohoWebpage):
             return None
         res = re.sub(r"\s+", "", res.text)
         return res if res != "--" else None
+
+    @webpage_property
+    # リスクオン相対指数
+    def risk_on_relative_index(self) -> str | None:
+        """Risk on relative index: リスクオン相対指数."""
+        res = self.soup.select_one(
+            'main div:-soup-contains("トレンドシグナル") + div h2:-soup-contains("リスクオン相対指数") + '
+            'dl > dt:-soup-contains("水準") + dd'
+        )
+        if res is None:
+            return None
+        res = re.sub(r"\s+", "", res.text)
+        return res if res != "--" else None
