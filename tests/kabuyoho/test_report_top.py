@@ -39,6 +39,43 @@ class TestReportTop:
                         "ゲーム＆ネットワークサービス（家庭用ゲーム機「PS5」、ゲームソフト、ネットワークサービス、周辺装置・機器）",
                         "イメージング＆センシングソリューション（CMOSイメージセンサー、LSI/IC/モジュール、レーザーダイオード、ディスプレイデバイス、ボードコンピュータ）",
                     ],
+                    "segment_sales_composition": [
+                        {
+                            "segment": "ｹﾞｰﾑ&ﾈｯﾄﾜｰｸｻｰﾋﾞｽ",
+                            "sales": Money("3_644_598_000_000", "JPY"),
+                            "proportion": 30.8,
+                        },
+                        {
+                            "segment": "ｴﾝﾀﾃｲﾝﾒﾝﾄ･ﾃｸﾉﾛｼﾞｰ&ｻｰﾋﾞｽ",
+                            "sales": Money("2_476_025_000_000", "JPY"),
+                            "proportion": 21.0,
+                        },
+                        {
+                            "segment": "金融",
+                            "sales": Money("1_454_546_000_000", "JPY"),
+                            "proportion": 12.3,
+                        },
+                        {
+                            "segment": "ｲﾒｰｼﾞﾝｸﾞ&ｾﾝｼﾝｸﾞ･ｿﾘｭｰｼｮﾝ",
+                            "sales": Money("1_402_187_000_000", "JPY"),
+                            "proportion": 11.9,
+                        },
+                        {
+                            "segment": "音楽",
+                            "sales": Money("1_380_632_000_000", "JPY"),
+                            "proportion": 11.7,
+                        },
+                        {
+                            "segment": "映画",
+                            "sales": Money("1_369_422_000_000", "JPY"),
+                            "proportion": 11.6,
+                        },
+                        {
+                            "segment": "その他",
+                            "sales": Money("87_623_000_000", "JPY"),
+                            "proportion": 0.7,
+                        },
+                    ],
                 },
             ),
             (
@@ -65,6 +102,23 @@ class TestReportTop:
                     "products": [
                         "「BESSシリーズ」ログハウス（COUNTRY LOG、G-LOG）",
                         "「BESSシリーズ」エポックス（WONDER DEVICE、倭様「程々の家」、BESS DOME、平小屋「栖ログ」）",
+                    ],
+                    "segment_sales_composition": [
+                        {
+                            "segment": "販社",
+                            "sales": Money("5_991_000_000", "JPY"),
+                            "proportion": 37.2,
+                        },
+                        {
+                            "segment": "BP社",
+                            "sales": Money("5_256_000_000", "JPY"),
+                            "proportion": 32.6,
+                        },
+                        {
+                            "segment": "直販",
+                            "sales": Money("4_874_000_000", "JPY"),
+                            "proportion": 30.2,
+                        },
                     ],
                 },
             ),
