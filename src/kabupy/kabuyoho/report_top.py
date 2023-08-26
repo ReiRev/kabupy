@@ -162,3 +162,14 @@ class ReportTop(KabuyohoWebpage):
         if amount is None:
             return None
         return str2money(amount.text + "百万円")
+
+    @webpage_property
+    # 業績予想 会社予想 今期見通し
+    def current_term_company_performance_forecast(self) -> str | None:
+        """Current term company performance forecast: 業績予想 会社予想 今期見通し."""
+        res = self.soup.select_one(
+            'main div:-soup-contains("業績予想") + div h2:-soup-contains("会社予想") + dl > dt:-soup-contains("今期見通し") + dd'
+        )
+        if res is None:
+            return None
+        return re.sub(r"\s+", "", res.text)
