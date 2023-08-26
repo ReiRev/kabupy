@@ -164,7 +164,6 @@ class ReportTop(KabuyohoWebpage):
         return str2money(amount.text + "百万円")
 
     @webpage_property
-    # 業績予想 会社予想 今期見通し
     def current_term_company_performance_forecast(self) -> str | None:
         """Current term company performance forecast: 業績予想 会社予想 今期見通し."""
         res = self.soup.select_one(
@@ -173,3 +172,15 @@ class ReportTop(KabuyohoWebpage):
         if res is None:
             return None
         return re.sub(r"\s+", "", res.text)
+
+    @webpage_property
+    def analyst_company_performance_forecast_comparison(self) -> str | None:
+        """Analyst forecast company forecast comparison: 業績予想 アナリスト予想 会社予想との比較."""
+        res = self.soup.select_one(
+            'main div:-soup-contains("業績予想") + div h2:-soup-contains("アナリスト予想") + dl '
+            '> dt:-soup-contains("会社予想との比較") + dd'
+        )
+        if res is None:
+            return None
+        res = re.sub(r"\s+", "", res.text)
+        return res if res != "--" else None
