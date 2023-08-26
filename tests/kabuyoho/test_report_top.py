@@ -1,8 +1,8 @@
 import os
+from datetime import datetime
 
 import pytest
 import requests_mock
-from datetime import datetime
 from money import Money
 
 import kabupy
@@ -23,6 +23,7 @@ class TestReportTop:
                     "earnings_release_date": datetime(2023, 8, 9),
                     "expected_per": 18.0,
                     "actual_pbr": 2.21,
+                    "expected_dividend_yield": None,
                     "actual_roa": 3.00,
                     "actual_roe": 13.04,
                     "equity_ratio": 22.6,
@@ -41,6 +42,7 @@ class TestReportTop:
                     "earnings_release_date": datetime(2023, 8, 14),
                     "expected_per": 0.7,
                     "actual_pbr": 2.33,
+                    "expected_dividend_yield": 0.00,
                     "actual_roa": 11.53,
                     "actual_roe": 87.08,
                     "equity_ratio": 7.9,

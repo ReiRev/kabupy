@@ -5,13 +5,13 @@ import logging
 import re
 import urllib.parse
 
+from money import Money
+
 from ..base import Website, webpage_property
+from ..util import str2float, str2money
 from .kabuyoho_webpage import KabuyohoWebpage
 
 logger = logging.getLogger(__name__)
-from money import Money
-
-from ..util import str2float, str2money
 
 
 class ReportTop(KabuyohoWebpage):
@@ -94,3 +94,11 @@ class ReportTop(KabuyohoWebpage):
         if amount is None:
             return None
         return str2money(amount.text.split("円")[0])
+
+    @webpage_property
+    def expected_dividend_yield(self) -> float | None:
+        """Expected dividend yield: 配当利回り(予)."""
+        amount = self.term2description("配当利回り(予)")
+        if amount is None:
+            return None
+        return str2float(amount)

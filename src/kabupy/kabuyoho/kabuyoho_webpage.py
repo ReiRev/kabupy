@@ -1,7 +1,9 @@
 """Base class for webpage"""
 from __future__ import annotations
+
 import re
 from datetime import datetime
+
 from money import Money
 
 from ..base import Webpage, webpage_property
