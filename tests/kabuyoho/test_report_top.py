@@ -77,6 +77,7 @@ class TestReportTop:
                         },
                     ],
                     "income_statement_amount": Money("11_539_837_000_000", "JPY"),
+                    "income_statement_adjustment": Money("-275_196_000_000", "JPY"),
                 },
             ),
             (
@@ -122,6 +123,7 @@ class TestReportTop:
                         },
                     ],
                     "income_statement_amount": Money("13_940_000_000", "JPY"),
+                    "income_statement_adjustment": Money("-2_181_000_000", "JPY"),
                 },
             ),
         ],

@@ -154,3 +154,11 @@ class ReportTop(KabuyohoWebpage):
         if amount is None:
             return None
         return str2money(amount.text + "百万円")
+
+    @webpage_property
+    def income_statement_adjustment(self) -> Money | None:
+        """Income statement adjustment: 調整額."""
+        amount = self.soup.select_one('main td:-soup-contains("調整額") + td')
+        if amount is None:
+            return None
+        return str2money(amount.text + "百万円")
