@@ -32,6 +32,7 @@ class TestReportTop:
                     "expected_ordinary_profit": Money("1_140_000_000_000", "JPY"),
                     "consensus_expected_ordinary_profit": Money("1_223_695_000_000", "JPY"),
                     "target_price": Money("16_197", "JPY"),
+                    "business_category": "電気機器",
                 },
             ),
             (
@@ -52,6 +53,7 @@ class TestReportTop:
                     "expected_ordinary_profit": Money("26_000_000", "JPY"),
                     "consensus_expected_ordinary_profit": None,
                     "target_price": None,
+                    "business_category": "その他製品",
                 },
             ),
         ],

@@ -110,3 +110,12 @@ class ReportTop(KabuyohoWebpage):
         if amount is None:
             return None
         return str2money(amount.text)
+
+    @webpage_property
+    # 事業内容の業種
+    def business_category(self) -> str | None:
+        """Business category: 事業内容の業種."""
+        res = self.soup.select_one('main h1:-soup-contains("基本情報") ~ div h2:-soup-contains("業種")')
+        if res is None:
+            return None
+        return re.sub(r"業種：", "", res.text)
