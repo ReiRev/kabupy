@@ -40,6 +40,22 @@ class ReportTop(KabuyohoWebpage):
         return str2float(amount)
 
     @webpage_property
+    def expected_dividend_yield(self) -> float | None:
+        """Expected dividend yield: 配当利回り(予)."""
+        amount = self.term2description("配当利回り(予)")
+        if amount is None:
+            return None
+        return str2float(amount)
+
+    @webpage_property
+    def market_capitalization(self) -> Money | None:
+        """Market Capitalization: 時価総額."""
+        amount = self.term2description("時価総額")
+        if amount is None:
+            return None
+        return str2money(amount)
+
+    @webpage_property
     def actual_roa(self) -> float | None:
         """Actual ROA: ROA(実)."""
         amount = self.term2description("ROA(実)")
@@ -64,14 +80,6 @@ class ReportTop(KabuyohoWebpage):
         return str2float(amount)
 
     @webpage_property
-    def market_capitalization(self) -> Money | None:
-        """Market Capitalization: 時価総額."""
-        amount = self.term2description("時価総額")
-        if amount is None:
-            return None
-        return str2money(amount)
-
-    @webpage_property
     def signal(self) -> str | None:
         """Signal: シグナル."""
         res = self.term2description("シグナル")
@@ -94,11 +102,3 @@ class ReportTop(KabuyohoWebpage):
         if amount is None:
             return None
         return str2money(amount.text.split("円")[0])
-
-    @webpage_property
-    def expected_dividend_yield(self) -> float | None:
-        """Expected dividend yield: 配当利回り(予)."""
-        amount = self.term2description("配当利回り(予)")
-        if amount is None:
-            return None
-        return str2float(amount)
