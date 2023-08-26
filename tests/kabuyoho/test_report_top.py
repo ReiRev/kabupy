@@ -82,6 +82,7 @@ class TestReportTop:
                     "analyst_company_performance_forecast_comparison": "強気",
                     "price_level_to_target": "割安",
                     "price_level_to_pbr_based_theoretical_price": "妥当水準",
+                    "price_level_to_per_based_theoretical_price": "やや割安",
                 },
             ),
             (
@@ -132,6 +133,7 @@ class TestReportTop:
                     "analyst_company_performance_forecast_comparison": None,
                     "price_level_to_target": None,
                     "price_level_to_pbr_based_theoretical_price": "やや割高",
+                    "price_level_to_per_based_theoretical_price": None,
                 },
             ),
         ],

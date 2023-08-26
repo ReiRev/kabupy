@@ -198,9 +198,20 @@ class ReportTop(KabuyohoWebpage):
 
     @webpage_property
     def price_level_to_pbr_based_theoretical_price(self) -> str | None:
-        """Current price to theoretical price: 理論株価に対する現在の価格が割高か割安か."""
+        """Price level to PBR based theoretical price: PBR基準の理論株価に対する現在の価格が割高か割安か."""
         res = self.soup.select_one(
             'main div:-soup-contains("目標株価") + div h2:-soup-contains("理論株価") + div dt:-soup-contains("PBR基準") + dd'
+        )
+        if res is None:
+            return None
+        res = re.sub(r"\s+", "", res.text)
+        return res if res != "--" else None
+
+    @webpage_property
+    def price_level_to_per_based_theoretical_price(self) -> str | None:
+        """Price level to PER based theoretical price: PER基準の理論株価に対する現在の価格が割高か割安か."""
+        res = self.soup.select_one(
+            'main div:-soup-contains("目標株価") + div h2:-soup-contains("理論株価") + div dt:-soup-contains("PER基準") + dd'
         )
         if res is None:
             return None
