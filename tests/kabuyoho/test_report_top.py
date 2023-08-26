@@ -31,6 +31,7 @@ class TestReportTop:
                     "signal": "売り継続",
                     "expected_ordinary_profit": Money("1_140_000_000_000", "JPY"),
                     "consensus_expected_ordinary_profit": Money("1_223_695_000_000", "JPY"),
+                    "target_price": Money("16_197", "JPY"),
                 },
             ),
             (
@@ -50,6 +51,7 @@ class TestReportTop:
                     "signal": "売り継続",
                     "expected_ordinary_profit": Money("26_000_000", "JPY"),
                     "consensus_expected_ordinary_profit": None,
+                    "target_price": None,
                 },
             ),
         ],

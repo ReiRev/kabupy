@@ -102,3 +102,11 @@ class ReportTop(KabuyohoWebpage):
         if amount is None:
             return None
         return str2money(amount.text.split("円")[0])
+
+    @webpage_property
+    def target_price(self) -> Money | None:
+        """Target Price: 目標株価."""
+        amount = self.soup.select_one('main dt:-soup-contains("目標株価(コ)") + dd>p>span')
+        if amount is None:
+            return None
+        return str2money(amount.text)
