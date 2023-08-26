@@ -80,6 +80,7 @@ class TestReportTop:
                     "income_statement_adjustment": Money("-275_196_000_000", "JPY"),
                     "current_term_company_performance_forecast": "減益",
                     "analyst_company_performance_forecast_comparison": "強気",
+                    "price_level_to_target": "割安",
                 },
             ),
             (
@@ -128,6 +129,7 @@ class TestReportTop:
                     "income_statement_adjustment": Money("-2_181_000_000", "JPY"),
                     "current_term_company_performance_forecast": "黒字転換",
                     "analyst_company_performance_forecast_comparison": None,
+                    "price_level_to_target": None,
                 },
             ),
         ],
