@@ -76,6 +76,7 @@ class TestReportTop:
                             "proportion": 0.7,
                         },
                     ],
+                    "income_statement_amount": Money("11_539_837_000_000", "JPY"),
                 },
             ),
             (
@@ -120,6 +121,7 @@ class TestReportTop:
                             "proportion": 30.2,
                         },
                     ],
+                    "income_statement_amount": Money("13_940_000_000", "JPY"),
                 },
             ),
         ],

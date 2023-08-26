@@ -146,3 +146,11 @@ class ReportTop(KabuyohoWebpage):
             for r in rows
             if r.find("td").text != "損益計算書計上額" and r.find("td").text != "調整額"
         ]
+
+    @webpage_property
+    def income_statement_amount(self) -> Money | None:
+        """Income statement amount: 損益計算書計上額."""
+        amount = self.soup.select_one('main td:-soup-contains("損益計算書計上額") + td')
+        if amount is None:
+            return None
+        return str2money(amount.text + "百万円")
