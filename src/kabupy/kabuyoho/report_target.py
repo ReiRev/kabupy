@@ -73,7 +73,7 @@ class ReportTarget(KabuyohoWebpage):
         amount = re.sub(r"\D", "", amount.text)
         if amount == "":
             amount = "0"
-        return int(amount)
+        return int(amount, 10)
 
     @webpage_property
     def analyst_rating_composition(self) -> dict[str, int]:
@@ -149,73 +149,145 @@ class ReportTarget(KabuyohoWebpage):
     # Properties in "target price range(想定株価レンジ)"
 
     @webpage_property
-    def per_based_theoretical_stock_price(self) -> Money | None:
-        """PER based theoretical stock price(理論株価(PER基準))"""
-        amount = self.soup.select_one(
-            'main h2:-soup-contains("想定株価レンジ") + '
-            'table tr>th:-soup-contains("理論株価(PER基準)") + '
-            'td>span:-soup-contains("円")'
-        )
-        if amount is None:
-            return None
-        return str2money(amount.text)
-
-    @webpage_property
-    def per_based_upside_target(self) -> Money | None:
-        """PER based upside target(上値目途(PER基準))"""
-        amount = self.soup.select_one(
-            'main h2:-soup-contains("想定株価レンジ") + '
-            'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
-            'tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
-        )
-        if amount is None:
-            return None
-        return str2money(amount.text)
-
-    @webpage_property
-    def per_based_downside_target(self) -> Money | None:
-        """PER based downside target(下値目途(PER基準))"""
-        amount = self.soup.select_one(
-            'main h2:-soup-contains("想定株価レンジ") + '
-            'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
-            'tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
-        )
-        if amount is None:
-            return None
-        return str2money(amount.text)
-
-    @webpage_property
-    def pbr_based_theoretical_stock_price(self) -> Money | None:
-        """PBR based theoretical stock price(理論株価(PBR基準))"""
-        amount = self.soup.select_one(
+    def pbr_based_fair_value(self) -> Money | None:
+        """PBR based fair value: 理論株価(PBR基準)"""
+        value = self.soup.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr>th:-soup-contains("理論株価(PBR基準)") + '
-            'td>span:-soup-contains("円")'
+            "td>span:nth-of-type(1)"
         )
-        if amount is None:
+        if value is None:
             return None
-        return str2money(amount.text)
+        return str2money(value.text)
 
     @webpage_property
-    def pbr_based_upside_target(self) -> Money | None:
-        """PBR based upside target(上値目途(PBR基準))"""
-        amount = self.soup.select_one(
+    def pbr_fair(self) -> float | None:
+        """PBR when the stock price is at pbr_based_fair_value: 理論株価(PBR基準)の時のPBR"""
+        value = self.soup.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
-            'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
-            'tr:has(>th:-soup-contains("上値目途"))>td>span:-soup-contains("円")'
+            'table tr>th:-soup-contains("理論株価(PBR基準)") + '
+            "td>span:nth-of-type(2)"
         )
-        if amount is None:
+        if value is None:
             return None
-        return str2money(amount.text)
+        return str2float(value.text)
 
     @webpage_property
-    def pbr_based_downside_target(self) -> Money | None:
-        """PBR based downside target(下値目途(PBR基準))"""
-        amount = self.soup.select_one(
+    def pbr_based_ceiling(self) -> Money | None:
+        """PBR based ceiling price of the stock: 上値目途(PBR基準)"""
+        value = self.soup.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
-            'tr:has(>th:-soup-contains("下値目途"))>td>span:-soup-contains("円")'
+            'tr>th:-soup-contains("上値目途") + td>span:nth-of-type(1)'
         )
-        if amount is None:
+        if value is None:
             return None
-        return str2money(amount.text)
+        return str2money(value.text)
+
+    @webpage_property
+    def pbr_ceiling(self) -> float | None:
+        """PBR when the stock price is at pbr_based_ceiling: 下値目途(PBR基準)の時のPBR"""
+        value = self.soup.select_one(
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
+            'tr>th:-soup-contains("上値目途") + td>span:nth-of-type(2)'
+        )
+        if value is None:
+            return None
+        return str2float(value.text)
+
+    @webpage_property
+    def pbr_based_floor(self) -> Money | None:
+        """PBR based floor price of the stock: 下値目途(PBR基準)"""
+        value = self.soup.select_one(
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
+            'tr>th:-soup-contains("下値目途") + td>span:nth-of-type(1)'
+        )
+        if value is None:
+            return None
+        return str2money(value.text)
+
+    @webpage_property
+    def pbr_floor(self) -> float | None:
+        """PBR when the stock price is at pbr_based_floor: 下値目途(PBR基準)の時のPBR"""
+        value = self.soup.select_one(
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
+            'tr>th:-soup-contains("下値目途") + td>span:nth-of-type(2)'
+        )
+        if value is None:
+            return None
+        return str2float(value.text)
+
+    @webpage_property
+    def per_based_fair_value(self) -> Money | None:
+        """PER based fair value: 理論株価(PER基準)"""
+        value = self.soup.select_one(
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr>th:-soup-contains("理論株価(PER基準)") + '
+            "td>span:nth-of-type(1)"
+        )
+        if value is None:
+            return None
+        return str2money(value.text)
+
+    @webpage_property
+    def per_fair(self) -> float | None:
+        """PER when the stock price is at per_based_fair_value: 理論株価(PER基準)の時のPER"""
+        value = self.soup.select_one(
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr>th:-soup-contains("理論株価(PER基準)") + '
+            "td>span:nth-of-type(2)"
+        )
+        if value is None:
+            return None
+        return str2float(value.text)
+
+    @webpage_property
+    def per_based_ceiling(self) -> Money | None:
+        """PER based ceiling price of the stock: 上値目途(PER基準)"""
+        value = self.soup.select_one(
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
+            'tr>th:-soup-contains("上値目途") + td>span:nth-of-type(1)'
+        )
+        if value is None:
+            return None
+        return str2money(value.text)
+
+    @webpage_property
+    def ceiling_per(self) -> float | None:
+        """PER when the stock price is at per_based_ceiling: 下値目途(PER基準)の時のPER"""
+        value = self.soup.select_one(
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
+            'tr>th:-soup-contains("上値目途") + td>span:nth-of-type(2)'
+        )
+        if value is None:
+            return None
+        return str2float(value.text)
+
+    @webpage_property
+    def per_based_floor(self) -> Money | None:
+        """PER based floor price of the stock: 下値目途(PER基準)"""
+        value = self.soup.select_one(
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
+            'tr>th:-soup-contains("下値目途") + td>span:nth-of-type(1)'
+        )
+        if value is None:
+            return None
+        return str2money(value.text)
+
+    @webpage_property
+    def per_floor(self) -> float | None:
+        """PER when the stock price is at per_based_floor: 下値目途(PER基準)の時のPER"""
+        value = self.soup.select_one(
+            'main h2:-soup-contains("想定株価レンジ") + '
+            'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
+            'tr>th:-soup-contains("下値目途") + td>span:nth-of-type(2)'
+        )
+        if value is None:
+            return None
+        return str2float(value.text)
