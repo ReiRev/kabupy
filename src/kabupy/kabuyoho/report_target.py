@@ -72,7 +72,6 @@ class ReportTarget(KabuyohoWebpage):
         return int(amount)
 
     @webpage_property
-    # アナリストのレーティングの点数の構成
     def analyst_rating_composition(self) -> dict[str, int]:
         """Analyst rating composition: レーティング(点数の構成)
 
