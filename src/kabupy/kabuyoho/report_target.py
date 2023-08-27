@@ -98,7 +98,7 @@ class ReportTarget(KabuyohoWebpage):
     @webpage_property
     def actual_bps(self) -> Money | None:
         """Actual BPS: BPS(実績)"""
-        amount = self.soup.select_one('main h2:-soup-contains("株価指標") table th:-soup-contains("BPS(実績)") + td')
+        amount = self.soup.select_one('main h2:-soup-contains("株価指標") + table th:-soup-contains("BPS(実績)") + td')
         if amount is None:
             return None
         return str2money(amount.text)
