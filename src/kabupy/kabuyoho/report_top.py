@@ -80,14 +80,6 @@ class ReportTop(KabuyohoWebpage):
         return str2float(amount)
 
     @webpage_property
-    def market_capitalization(self) -> Money | None:
-        """Market Capitalization: 時価総額."""
-        amount = self.term2description("時価総額")
-        if amount is None:
-            return None
-        return str2money(amount)
-
-    @webpage_property
     def signal(self) -> str | None:
         """Signal: シグナル."""
         res = self.term2description("シグナル")
