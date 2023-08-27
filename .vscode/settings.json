@@ -34,4 +34,8 @@
         "thead"
     ],
     "python.analysis.typeCheckingMode": "basic",
+    "coverage-gutters.coverageBaseDir": ".",
+    "coverage-gutters.coverageFileNames": [
+        "coverage.xml",
+    ]
 }
