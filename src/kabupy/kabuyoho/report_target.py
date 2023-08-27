@@ -23,6 +23,8 @@ class ReportTarget(KabuyohoWebpage):
         self.url = urllib.parse.urljoin(self.website.url, f"sp/reportTarget?bcode={self.security_code}")
         super().__init__()
 
+    # Properties in "price target(目標株価)"
+
     @webpage_property
     def price_level_to_target(self) -> str | None:
         """Current price level to target price: 目標株価に対する現在の価格が割高か割安か."""
@@ -51,6 +53,8 @@ class ReportTarget(KabuyohoWebpage):
         if amount is None:
             return None
         return str2float(amount.text)
+
+    # Properties in "rating(レーティング)"
 
     @webpage_property
     def average_analyst_rating(self) -> float | None:
@@ -85,13 +89,62 @@ class ReportTarget(KabuyohoWebpage):
         composition = {}
         for rating in ratings:
             res = self.soup.select_one(
-                'main h1:-soup-contains("レーティング") + div '
-                f'tbody tr>th:-soup-contains("({rating}点)") + td'
+                'main h1:-soup-contains("レーティング") + div ' f'tbody tr>th:-soup-contains("({rating}点)") + td'
             )
             if res is None:
                 continue
             composition[rating] = str2int(res.text)
         return composition
+
+    # Properties in "stock index(株価指標)"
+
+    @webpage_property
+    def bps(self) -> Money | None:
+        """Book-value per share: BPS(実績)"""
+        amount = self.soup.select_one('main h2:-soup-contains("株価指標") + table th:-soup-contains("BPS(実績)") + td')
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @webpage_property
+    def forward_eps(self) -> Money | None:
+        """Forward earnings per share: EPS(予想)"""
+        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("EPS(予想)") + td')
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @webpage_property
+    def forward_eps_by_analysts(self) -> Money | None:
+        """Forward earnings per share in twelve months based on analysts estimates: EPS(アナリスト12ヶ月後予想)"""
+        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("EPS ※") + td')
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @webpage_property
+    def pbr(self) -> float | None:
+        """Price to book ratio: PBR"""
+        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("PBR") + td')
+        if amount is None:
+            return None
+        return str2float(amount.text)
+
+    @webpage_property
+    def forward_per(self) -> float | None:
+        """Forward price to earnings ratio based on company estimates: PER(会予)"""
+        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("PER(予想)") + td')
+        if amount is None:
+            return None
+        return str2float(amount.text)
+
+    @webpage_property
+    def forward_per_by_analysts(self) -> float | None:
+        """Forward PER in twelve months based on analysts estimates: PER(アナリスト12ヶ月後予想)"""
+        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("PER ※") + td')
+        if amount is None:
+            return None
+        return str2float(amount.text)
 
     @webpage_property
     def per_based_theoretical_stock_price(self) -> Money | None:
@@ -164,35 +217,3 @@ class ReportTarget(KabuyohoWebpage):
         if amount is None:
             return None
         return str2money(amount.text)
-
-    @webpage_property
-    def actual_bps(self) -> Money | None:
-        """Actual BPS: BPS(実績)"""
-        amount = self.soup.select_one('main h2:-soup-contains("株価指標") + table th:-soup-contains("BPS(実績)") + td')
-        if amount is None:
-            return None
-        return str2money(amount.text)
-
-    @webpage_property
-    def expected_eps(self) -> Money | None:
-        """Expected EPS: EPS(予想)"""
-        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("EPS(予想)") + td')
-        if amount is None:
-            return None
-        return str2money(amount.text)
-
-    @webpage_property
-    def analyst_expected_eps(self) -> Money | None:
-        """Analyst expected EPS: EPS(アナリスト12ヶ月後予想)"""
-        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("EPS ※") + td')
-        if amount is None:
-            return None
-        return str2money(amount.text)
-
-    @webpage_property
-    def analyst_expected_epr(self) -> float | None:
-        """Analyst expected PER: PER(アナリスト12ヶ月後予想)"""
-        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("PER ※") + td')
-        if amount is None:
-            return None
-        return str2float(amount.text)
