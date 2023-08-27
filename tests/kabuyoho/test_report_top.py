@@ -84,6 +84,11 @@ class TestReportTop:
                     "price_level_to_pbr_based_theoretical_price": "妥当水準",
                     "price_level_to_per_based_theoretical_price": "やや割安",
                     "risk_on_relative_index": None,
+                    "news_links": [
+                        "https://kabuyoho.jp/sp/fiscoNewsDetail?nid=0009340020230812018&bcode=6758",
+                        "https://kabuyoho.jp/sp/fiscoNewsDetail?nid=0009340020230812013&bcode=6758",
+                        "https://kabuyoho.jp/sp/fiscoNewsDetail?nid=0005330020230812001&bcode=6758",
+                    ],
                 },
             ),
             (
@@ -136,6 +141,12 @@ class TestReportTop:
                     "price_level_to_pbr_based_theoretical_price": "やや割高",
                     "price_level_to_per_based_theoretical_price": None,
                     "risk_on_relative_index": "高値圏警戒",
+                    "news_links": [
+                        "https://kabuyoho.jp/sp/"
+                        "consNewsDetail?nid=7837_20230515_act_20230515_173006_1&cat=1&bcode=7837",
+                        "https://kabuyoho.jp/sp/fiscoNewsDetail?nid=0005550020230512001&bcode=7837",
+                        "https://kabuyoho.jp/sp/fiscoNewsDetail?nid=0005550020230428001&bcode=7837",
+                    ],
                 },
             ),
         ],

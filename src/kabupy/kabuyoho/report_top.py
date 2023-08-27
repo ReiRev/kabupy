@@ -19,7 +19,7 @@ class ReportTop(KabuyohoWebpage):
 
     def __init__(self, website: Website, security_code: str | int) -> None:
         self.website = website
-        self.security_code = security_code
+        self.security_code = str(security_code)
         self.url = urllib.parse.urljoin(self.website.url, f"sp/reportTop?bcode={self.security_code}")
         super().__init__()
 
@@ -134,7 +134,7 @@ class ReportTop(KabuyohoWebpage):
         return [re.sub(r"^・", "", r.text) for r in res]
 
     @webpage_property
-    def segment_sales_composition(self) -> list[dict[str, str | Money | float]] | None:
+    def segment_sales_composition(self) -> list[dict] | None:
         """Segment sales composition: セグメント売上構成."""
         rows = self.soup.select('main div:-soup-contains("セグメント売上構成") + div table tr:has(td)')
         return [
@@ -144,7 +144,9 @@ class ReportTop(KabuyohoWebpage):
                 "proportion": str2float(r.find_all("td")[2].text),
             }
             for r in rows
-            if r.find("td").text != "損益計算書計上額" and r.find("td").text != "調整額"
+            if len(r.find_all("td")) == 3
+            and r.find_all("td")[0].text != "損益計算書計上額"
+            and r.find_all("td")[0].text != "調整額"
         ]
 
     @webpage_property
@@ -219,7 +221,6 @@ class ReportTop(KabuyohoWebpage):
         return res if res != "--" else None
 
     @webpage_property
-    # リスクオン相対指数
     def risk_on_relative_index(self) -> str | None:
         """Risk on relative index: リスクオン相対指数."""
         res = self.soup.select_one(
@@ -230,3 +231,12 @@ class ReportTop(KabuyohoWebpage):
             return None
         res = re.sub(r"\s+", "", res.text)
         return res if res != "--" else None
+
+    @webpage_property
+    def news_links(self) -> list[str]:
+        """News links: ニュースのリンクのリスト."""
+        res = self.soup.select('main h1:-soup-contains("ニュース") + ul  a')
+        if res is None:
+            return []
+        res = [r.get("href") for r in res]
+        return [urllib.parse.urljoin(self.website.url, r) for r in res if isinstance(r, str)]
