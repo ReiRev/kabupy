@@ -17,11 +17,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pytest pytest-cov
+          python -m pip install tox
 
       - name: Create coverage file
         run: |
-          tox -e pytest -- --cov-report xml:coverage.xml
+          tox -e py311
 
       - name: Pytest coverage comment
         if: ${{ github.ref == 'refs/heads/main' }}
