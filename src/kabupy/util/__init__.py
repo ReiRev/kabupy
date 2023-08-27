@@ -23,7 +23,9 @@ def str2money(price: str) -> Money | None:
 
 def str2float(value: str) -> float | None:
     """Convert str to float"""
-    amount = re.sub(r"[^\d.]", "", value)
+    if not re.search(r"\d", value):
+        return None
+    amount = re.sub(r"[^\d.-]", "", value)
     if amount == "":
         return None
     return float(amount)
