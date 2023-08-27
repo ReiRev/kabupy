@@ -10,17 +10,18 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: 3.11
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install tox
+          python -m pip install pytest pytest-cov
 
       - name: Create coverage file
-        run: tox -e pytest
+        run: |
+          tox -e pytest -- --cov-report xml:coverage.xml
 
       - name: Pytest coverage comment
         if: ${{ github.ref == 'refs/heads/main' }}
