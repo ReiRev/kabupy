@@ -24,6 +24,35 @@ class ReportTarget(KabuyohoWebpage):
         super().__init__()
 
     @webpage_property
+    def price_level_to_target(self) -> str | None:
+        """Current price level to target price: 目標株価に対する現在の価格が割高か割安か."""
+        return None if self.term2description("目標株価から見た株価") == '--' else self.term2description("目標株価から見た株価")
+
+    @webpage_property
+    def price_target(self) -> Money | None:
+        """Price target: 目標株価(アナリストが発表した目標株価の平均値)"""
+        amount = self.soup.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td:nth-of-type(1)')
+        if amount is None:
+            return None
+        return str2money(amount.text)
+
+    @webpage_property
+    def price_target_ratio_to_previous_week(self) -> float | None:
+        """Price target ratio to previous week in %: 目標株価の対前週変化率"""
+        amount = self.soup.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td:nth-of-type(2)')
+        if amount is None:
+            return None
+        return str2float(amount.text)
+
+    @webpage_property
+    def price_target_ratio_to_current_price(self) -> float | None:
+        """(price target) / (current price) in %: 目標株価と現在の株価の乖離率"""
+        amount = self.soup.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td:nth-of-type(3)')
+        if amount is None:
+            return None
+        return str2float(amount.text)
+
+    @webpage_property
     def per_based_theoretical_stock_price(self) -> Money | None:
         """PER based theoretical stock price(理論株価(PER基準))"""
         amount = self.soup.select_one(
@@ -126,14 +155,6 @@ class ReportTarget(KabuyohoWebpage):
         if amount is None:
             return None
         return str2float(amount.text)
-
-    @webpage_property
-    def price_target(self) -> Money | None:
-        """Price target: 目標株価(アナリストが発表した目標株価の平均値)"""
-        amount = self.soup.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td')
-        if amount is None:
-            return None
-        return str2money(amount.text)
 
     @webpage_property
     def average_analyst_rating(self) -> float | None:
