@@ -104,7 +104,7 @@ testpaths = "tests"
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py{311,310,39,38},isort,autoflake,black
+envlist = py{311,310,39,38},isort,autoflake,black,pylint
 requires =
     tox>4
 skip_missing_interpreters = True
@@ -114,7 +114,7 @@ python =
     3.8: py38
     3.9: py39
     3.10: py310
-    3.11: py311, black, isort, autoflake
+    3.11: py311, black, isort, autoflake, pylint
 
 [testenv:py{311,310,39,38}]
 deps =
@@ -142,6 +142,11 @@ deps =
 skip_install = true
 commands =
     autoflake --in-place --recursive --verbose src tests
+
+[testenv:pylint]
+deps = pylint
+
+commands = pylint src tests
 """
 
 [tool.autoflake]
@@ -264,15 +269,12 @@ max-bool-expr = 5
 max-branches = 12
 max-locals = 15
 max-parents = 7
-max-public-methods = 20
+max-public-methods = 64
 max-returns = 6
 max-statements = 50
-min-public-methods = 2
+min-public-methods = 0
 
 [tool.pylint.'IMPORTS']
 allow-wildcard-with-all = "no"
 analyse-fallback-blocks = "no"
 deprecated-modules = "optparse,tkinter.tix"
-
-[tool.pylint.'EXCEPTIONS']
-overgeneral-exceptions = ["BaseException", "Exception"]

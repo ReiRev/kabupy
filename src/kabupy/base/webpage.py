@@ -18,6 +18,7 @@ class Webpage(ABC):
         self.load()
 
     def load(self):
+        """Load webpage and set html and soup"""
         response = requests.get(self.url, timeout=10)
         response.raise_for_status()
         self.html = response.text

@@ -20,6 +20,7 @@ class Jpx(Website):
 
     @functools.cached_property
     def issues_link(self) -> str:
+        """Return a link to the issues list."""
         response = requests.get("https://www.jpx.co.jp/markets/statistics-equities/misc/01.html", timeout=10)
         response.raise_for_status()
         response.encoding = response.apparent_encoding
@@ -32,6 +33,7 @@ class Jpx(Website):
 
     @functools.cached_property
     def issues(self):
+        """Return a list of issues."""
         link = self.issues_link
         response = requests.get(link, timeout=10)
         response.raise_for_status()
