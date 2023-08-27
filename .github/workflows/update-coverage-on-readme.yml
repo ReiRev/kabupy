@@ -20,8 +20,7 @@ jobs:
           python -m pip install tox
 
       - name: Create coverage file
-        run: |
-          tox -e pytest
+        run: tox -e pytest
 
       - name: Pytest coverage comment
         if: ${{ github.ref == 'refs/heads/main' }}
