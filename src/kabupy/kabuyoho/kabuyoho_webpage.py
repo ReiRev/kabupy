@@ -20,7 +20,7 @@ class KabuyohoWebpage(Webpage):
         res = self.soup.select_one(f'main dt:-soup-contains("{term}") + dd')
         if res is None:
             return None
-        return res.text
+        return re.sub(r"\s+", "", res.text)
 
     @webpage_property
     def price(self) -> Money | None:
