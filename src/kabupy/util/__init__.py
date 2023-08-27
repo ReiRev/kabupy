@@ -15,13 +15,14 @@ def str2money(price: str) -> Money | None:
     if not re.search(r"\d", price):
         return None
     amount = price.translate(jpy_unit)
-    amount = re.sub(r"[^\d.]", "", amount)
+    amount = re.sub(r"[^\d.-]", "", amount)
     if amount == "":
         return None
     return Money(amount, "JPY")
 
 
 def str2float(value: str) -> float | None:
+    """Convert str to float"""
     amount = re.sub(r"[^\d.]", "", value)
     if amount == "":
         return None

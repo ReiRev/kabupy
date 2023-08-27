@@ -32,12 +32,15 @@ class Stock:
 
     @functools.cached_property
     def report_top(self) -> ReportTop:
+        """Report top page object"""
         return ReportTop(self.website, self.security_code)
 
     @functools.cached_property
     def report_target(self) -> ReportTarget:
+        """Report target page object"""
         return ReportTarget(self.website, self.security_code)
 
     @functools.cached_property
     def report_dps(self) -> ReportDps:
+        """Report DPS page object"""
         return ReportDps(self.website, self.security_code)
