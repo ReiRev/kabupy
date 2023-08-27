@@ -1,2 +1,5 @@
+"""Exceptions for kabupy"""
+
+
 class KabupyError(Exception):
-    pass
+    """General error class for kabupy"""

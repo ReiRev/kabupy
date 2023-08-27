@@ -10,15 +10,13 @@ from .kabuyoho_webpage import KabuyohoWebpage
 
 logger = logging.getLogger(__name__)
 
-from ..util import str2float
-
 
 class ReportDps(KabuyohoWebpage):
     """Report target page object."""
 
     def __init__(self, website: Website, security_code: str | int) -> None:
         self.website = website
-        self.security_code = security_code
+        self.security_code = str(security_code)
         self.url = urllib.parse.urljoin(self.website.url, f"sp/reportDps?bcode={self.security_code}")
         super().__init__()
 

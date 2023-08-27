@@ -5,13 +5,13 @@ import logging
 import re
 import urllib.parse
 
+from money import Money
+
 from ..base import Website, webpage_property
+from ..util import str2float, str2money
 from .kabuyoho_webpage import KabuyohoWebpage
 
 logger = logging.getLogger(__name__)
-from money import Money
-
-from ..util import str2float, str2money
 
 
 class ReportTarget(KabuyohoWebpage):
@@ -19,7 +19,7 @@ class ReportTarget(KabuyohoWebpage):
 
     def __init__(self, website: Website, security_code: str | int) -> None:
         self.website = website
-        self.security_code = security_code
+        self.security_code = str(security_code)
         self.url = urllib.parse.urljoin(self.website.url, f"sp/reportTarget?bcode={self.security_code}")
         super().__init__()
 
@@ -98,7 +98,7 @@ class ReportTarget(KabuyohoWebpage):
     @webpage_property
     def actual_bps(self) -> Money | None:
         """Actual BPS: BPS(実績)"""
-        amount = self.soup.select_one('main h2:-soup-contains("株価指標") + ' 'table th:-soup-contains("BPS(実績)") + td')
+        amount = self.soup.select_one('main h2:-soup-contains("株価指標") + table th:-soup-contains("BPS(実績)") + td')
         if amount is None:
             return None
         return str2money(amount.text)
