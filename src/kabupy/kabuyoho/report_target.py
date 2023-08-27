@@ -8,7 +8,7 @@ import urllib.parse
 from money import Money
 
 from ..base import Website, webpage_property
-from ..util import str2float, str2money
+from ..util import str2float, str2money, str2int
 from .kabuyoho_webpage import KabuyohoWebpage
 
 logger = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ class ReportTarget(KabuyohoWebpage):
     @webpage_property
     def price_level_to_target(self) -> str | None:
         """Current price level to target price: 目標株価に対する現在の価格が割高か割安か."""
-        return None if self.term2description("目標株価から見た株価") == '--' else self.term2description("目標株価から見た株価")
+        return None if self.term2description("目標株価から見た株価") == "--" else self.term2description("目標株価から見た株価")
 
     @webpage_property
     def price_target(self) -> Money | None:
@@ -51,6 +51,48 @@ class ReportTarget(KabuyohoWebpage):
         if amount is None:
             return None
         return str2float(amount.text)
+
+    @webpage_property
+    def average_analyst_rating(self) -> float | None:
+        """Average analyst rating: レーティング(平均)"""
+        amount = self.soup.select_one('main section:has(h1:-soup-contains("レーティング")) th:-soup-contains("平均") + td')
+        if amount is None:
+            return None
+        return str2float(amount.text)
+
+    @webpage_property
+    def analyst_count(self) -> int | None:
+        """Average count: レーティング(人数)"""
+        amount = self.soup.select_one('main section:has(h1:-soup-contains("レーティング")) th:-soup-contains("人数") + td')
+        if amount is None:
+            return None
+        amount = re.sub(r"\D", "", amount.text)
+        if amount == "":
+            amount = "0"
+        return int(amount)
+
+    @webpage_property
+    # アナリストのレーティングの点数の構成
+    def analyst_rating_composition(self) -> dict[str, int]:
+        """Analyst rating composition: レーティング(点数の構成)
+
+        Returns:
+            dict[str, int]: key: rating("1", "2", "3", "4", and "5"),
+                            which respectively means
+                            "strong sell(弱気)", "sell(やや弱気)", "hold(中立)", "buy(やや強気)", and "strong buy(強気)"
+                            value: the number of analysts
+        """
+        ratings = ["1", "2", "3", "4", "5"]
+        composition = {}
+        for rating in ratings:
+            res = self.soup.select_one(
+                'main h1:-soup-contains("レーティング") + div '
+                f'tbody tr>th:-soup-contains("({rating}点)") + td'
+            )
+            if res is None:
+                continue
+            composition[rating] = str2int(res.text)
+        return composition
 
     @webpage_property
     def per_based_theoretical_stock_price(self) -> Money | None:
@@ -155,22 +197,3 @@ class ReportTarget(KabuyohoWebpage):
         if amount is None:
             return None
         return str2float(amount.text)
-
-    @webpage_property
-    def average_analyst_rating(self) -> float | None:
-        """Average analyst rating: レーティング(平均)"""
-        amount = self.soup.select_one('main section:has(h1:-soup-contains("レーティング")) th:-soup-contains("平均") + td')
-        if amount is None:
-            return None
-        return str2float(amount.text)
-
-    @webpage_property
-    def analyst_count(self) -> int | None:
-        """Average count: レーティング(人数)"""
-        amount = self.soup.select_one('main section:has(h1:-soup-contains("レーティング")) th:-soup-contains("人数") + td')
-        if amount is None:
-            return None
-        amount = re.sub(r"\D", "", amount.text)
-        if amount == "":
-            amount = "0"
-        return int(amount)
