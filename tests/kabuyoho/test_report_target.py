@@ -36,7 +36,9 @@ class TestReportTarget:
                     "forward_eps": Money("696.8", "JPY"),
                     "forward_eps_by_analysts": Money("777.1", "JPY"),
                     "pbr": 2.21,
+                    "forward_per": 18.0,
                     "forward_per_by_analysts": 16.2,
+                    # Properties in "target price range(想定株価レンジ)"
                     "per_based_theoretical_stock_price": Money("13438", "JPY"),
                     "per_based_upside_target": Money("14424", "JPY"),
                     "per_based_downside_target": Money("12451", "JPY"),
@@ -68,7 +70,9 @@ class TestReportTarget:
                     "forward_eps": Money("660.3", "JPY"),
                     "forward_eps_by_analysts": None,
                     "pbr": 2.33,
+                    "forward_per": 0.7,
                     "forward_per_by_analysts": None,
+                    # Properties in "target price range(想定株価レンジ)"
                     "per_based_theoretical_stock_price": None,
                     "per_based_upside_target": None,
                     "per_based_downside_target": None,

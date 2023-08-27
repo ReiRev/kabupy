@@ -133,7 +133,7 @@ class ReportTarget(KabuyohoWebpage):
     @webpage_property
     def forward_per(self) -> float | None:
         """Forward price to earnings ratio based on company estimates: PER(会予)"""
-        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("PER(予想)") + td')
+        amount = self.soup.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("PER(会予)") + td')
         if amount is None:
             return None
         return str2float(amount.text)
@@ -145,6 +145,8 @@ class ReportTarget(KabuyohoWebpage):
         if amount is None:
             return None
         return str2float(amount.text)
+
+    # Properties in "target price range(想定株価レンジ)"
 
     @webpage_property
     def per_based_theoretical_stock_price(self) -> Money | None:
