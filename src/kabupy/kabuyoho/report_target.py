@@ -8,7 +8,7 @@ import urllib.parse
 from money import Money
 
 from ..base import Website, webpage_property
-from ..util import str2float, str2money, str2int
+from ..util import str2float, str2int, str2money
 from .kabuyoho_webpage import KabuyohoWebpage
 
 logger = logging.getLogger(__name__)
