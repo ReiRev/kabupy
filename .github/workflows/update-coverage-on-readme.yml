@@ -21,7 +21,7 @@ jobs:
 
       - name: Create coverage file
         run: |
-          tox -e py311
+          tox -e py311 | tee pytest-coverage.txt
 
       - name: Pytest coverage comment
         if: ${{ github.ref == 'refs/heads/dev' }}
