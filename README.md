@@ -1,4 +1,3 @@
 # kabupy
 
-<!-- Pytest Coverage Comment:Begin -->
-\n<!-- Pytest Coverage Comment:End -->
+[![codecov](https://codecov.io/gh/ReiRev/kabupy/graph/badge.svg?token=3G3EEB7KEZ)](https://codecov.io/gh/ReiRev/kabupy)
