@@ -1,3 +1,4 @@
+import logging
 import os
 from datetime import datetime
 import logging
@@ -9,6 +10,8 @@ from kabupy.errors import ElementNotFoundError
 from kabupy.base.decorators import webpage_property
 
 import kabupy
+from kabupy.base.decorators import webpage_property
+from kabupy.errors import ElementNotFoundError
 
 url_directory = "reportTop"
 

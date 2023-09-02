@@ -1,12 +1,15 @@
+import logging
 import os
+from datetime import datetime
 
 import logging
 import pytest
 import requests_mock
+from money import Money
 
 import kabupy
-from kabupy.errors import ElementNotFoundError
 from kabupy.base.decorators import webpage_property
+from kabupy.errors import ElementNotFoundError
 
 url_directory = "reportDps"
 logger = logging.getLogger(__name__)
@@ -19,6 +22,12 @@ class TestReportDps:
             (
                 6758,
                 {
+                    "dividend_history": [
+                        {"date": datetime(2021, 3, 1), "dividend": Money("55.0", "JPY")},
+                        {"date": datetime(2022, 3, 1), "dividend": Money("65.0", "JPY")},
+                        {"date": datetime(2023, 3, 1), "dividend": Money("75.0", "JPY")},
+                        {"date": datetime(2024, 3, 1), "dividend": None},
+                    ],
                     "actual_dividend_yield": 0.6,
                     "expected_dividend_yield": None,
                     "dividend_payout_ratio": 9.9,
@@ -27,6 +36,12 @@ class TestReportDps:
             (
                 7837,
                 {
+                    "dividend_history": [
+                        {"date": datetime(2021, 3, 1), "dividend": Money("20.0", "JPY")},
+                        {"date": datetime(2022, 3, 1), "dividend": Money("15.0", "JPY")},
+                        {"date": datetime(2023, 3, 1), "dividend": Money("0.0", "JPY")},
+                        {"date": datetime(2024, 3, 1), "dividend": Money("0.0", "JPY")},
+                    ],
                     "actual_dividend_yield": 0.0,
                     "expected_dividend_yield": 0.0,
                     "dividend_payout_ratio": 0.0,

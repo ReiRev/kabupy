@@ -1,3 +1,4 @@
+import logging
 import os
 import logging
 
@@ -6,8 +7,8 @@ import requests_mock
 from money import Money
 
 import kabupy
-from kabupy.errors import ElementNotFoundError
 from kabupy.base.decorators import webpage_property
+from kabupy.errors import ElementNotFoundError
 
 url_directory = "reportTarget"
 

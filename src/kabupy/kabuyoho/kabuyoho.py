@@ -6,6 +6,7 @@ import logging
 
 from ..base import Website
 from .report_dps import ReportDps
+from .report_news import ReportNews
 from .report_target import ReportTarget
 from .report_top import ReportTop
 
@@ -44,3 +45,8 @@ class Stock:
     def report_dps(self) -> ReportDps:
         """Report DPS page object"""
         return ReportDps(self.website, self.security_code)
+
+    @functools.cached_property
+    def report_news(self) -> ReportNews:
+        """Report news page object"""
+        return ReportNews(self.website, self.security_code)
