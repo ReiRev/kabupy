@@ -23,23 +23,17 @@ class ReportDps(KabuyohoWebpage):
     @webpage_property
     def actual_dividend_yield(self) -> float | None:
         """Actual dividend yield(実績配当利回り)."""
-        amount = self.soup.select_one('th:-soup-contains("実績配当利回り") + td')
-        if amount is None:
-            return None
+        amount = self.select_one('th:-soup-contains("実績配当利回り") + td')
         return str2float(amount.text)
 
     @webpage_property
     def expected_dividend_yield(self) -> float | None:
         """Expected dividend yield(予想配当利回り)."""
-        amount = self.soup.select_one('th:-soup-contains("予想配当利回り") + td')
-        if amount is None:
-            return None
+        amount = self.select_one('th:-soup-contains("予想配当利回り") + td')
         return str2float(amount.text)
 
     @webpage_property
     def dividend_payout_ratio(self) -> float | None:
         """Expected dividend yield(予想配当利回り)."""
-        amount = self.soup.select_one('h2:-soup-contains("前期配当性向") + div td')
-        if amount is None:
-            return None
+        amount = self.select_one('h2:-soup-contains("前期配当性向") + div td')
         return str2float(amount.text)
