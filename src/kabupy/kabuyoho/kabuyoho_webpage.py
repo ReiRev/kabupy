@@ -15,11 +15,9 @@ class KabuyohoWebpage(Webpage):
 
     security_code: str
 
-    def term2description(self, term: str) -> str | None:
+    def term2description(self, term: str) -> str:
         """Get dd text from dt text"""
-        res = self.soup.select_one(f'main dt:-soup-contains("{term}") + dd')
-        if res is None:
-            return None
+        res = self.select_one(f'main dt:-soup-contains("{term}") + dd')
         return re.sub(r"\s+", "", res.text)
 
     @webpage_property

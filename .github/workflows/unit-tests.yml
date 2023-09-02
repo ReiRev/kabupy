@@ -1,6 +1,14 @@
-name: Python CI
+name: Unit Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+        - main
+        - develop
 
 jobs:
   tox:

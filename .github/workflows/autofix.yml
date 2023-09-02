@@ -1,0 +1,33 @@
+name: Autoated format and lint
+
+on: push
+
+jobs:
+  tox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install tox tox-gh-actions
+
+      - name: format
+        run: tox -e isort,autoflake,black
+
+      - name: lint
+        run: tox -e pylint,pyright
+
+      - name: commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Autoated format and lint
+          commit_options: "--no-verify --signoff"
+          file_pattern: "*.py"
+          repository: .
