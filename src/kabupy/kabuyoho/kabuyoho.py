@@ -6,9 +6,9 @@ import logging
 
 from ..base import Website
 from .report_dps import ReportDps
+from .report_news import ReportNews
 from .report_target import ReportTarget
 from .report_top import ReportTop
-from .report_news import ReportNews
 
 logger = logging.getLogger(__name__)
 
