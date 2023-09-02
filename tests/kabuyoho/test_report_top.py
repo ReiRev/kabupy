@@ -1,3 +1,4 @@
+import logging
 import os
 from datetime import datetime
 
@@ -6,8 +7,12 @@ import requests_mock
 from money import Money
 
 import kabupy
+from kabupy.base.decorators import webpage_property
+from kabupy.errors import ElementNotFoundError
 
 url_directory = "reportTop"
+
+logger = logging.Logger(__name__)
 
 
 class TestReportTop:
@@ -162,3 +167,19 @@ class TestReportTop:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}", text=text)
             for k, v in expected_values.items():
                 assert getattr(kabupy.kabuyoho.stock(security_code).report_top, k) == v
+
+    def test_raise_element_not_found_error(self, helpers):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                "html/no-body.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get("https://kabuyoho.jp/sp/reportTop?bcode=6758", text=text)
+            page = kabupy.kabuyoho.stock(6758).report_top
+            for k, v in page.__class__.__dict__.items():
+                if isinstance(v, webpage_property):
+                    logger.debug(f"Testing {k}")
+                    with pytest.raises(ElementNotFoundError):
+                        getattr(page, k)

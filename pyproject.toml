@@ -115,7 +115,7 @@ python =
     3.8: py38
     3.9: py39
     3.10: py310
-    3.11: py311, black, isort, autoflake, pylint, pyright
+    3.11: py311
 
 [testenv:py{311,310,39,38}]
 deps =
