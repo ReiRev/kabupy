@@ -36,7 +36,7 @@ class ReportNews(KabuyohoWebpage):
                     "title": "FooBar",
                     "category": "決算",
                     "weather": "wthr_clud",
-                    "url": "https://kabuyoho.jp/sp/consNewsDetail?cat=1&nid=6758_20230809_act_20230809_150126_2&bcode=67",
+                    "url": "https://kabuyoho.jp/sp/example"
                 },
                 ...
             ]
