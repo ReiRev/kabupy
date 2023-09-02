@@ -1,12 +1,12 @@
+import logging
 import os
 
-import logging
 import pytest
 import requests_mock
 
 import kabupy
-from kabupy.errors import ElementNotFoundError
 from kabupy.base.decorators import webpage_property
+from kabupy.errors import ElementNotFoundError
 
 url_directory = "reportDps"
 logger = logging.getLogger(__name__)
