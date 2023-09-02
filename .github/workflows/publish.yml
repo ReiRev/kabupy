@@ -1,9 +1,14 @@
 name: Python Publish Workflow
+
 on:
+  workflow_dispatch:
+  pull_request:
   push:
-    branches: [ master ]
-    tags:
-      - v*
+    branches:
+      - main
+  release:
+    types:
+      - published
 
 permissions:
   contents: read
