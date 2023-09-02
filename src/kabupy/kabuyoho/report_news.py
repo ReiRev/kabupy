@@ -23,19 +23,23 @@ class ReportNews(KabuyohoWebpage):
 
     @webpage_property
     def news(self) -> list[dict]:
-        """News(ニュース).
+        """list of news
 
         Returns:
-        list[dict]: List of news.
+            list[dict]: List of news.
 
         Note:
-        The format of the list is as follows:
-        [
-        {"date": datetime(2021, 3, 1), "title": "title", "url": "https://example.com"},
-        {"date": datetime(2022, 3, 1), "title": "title", "url": "https://example.com"},
-        {"date": datetime(2023, 3, 1), "title": "title", "url": "https://example.com"},
-        {"date": datetime(2024, 3, 1), "title": "title", "url": "https://example.com"},
-        ]
+            The example of the return value is as follows:
+            [
+                {
+                    "date": datetime(2021, 3, 1, 12, 34),
+                    "title": "FooBar",
+                    "category": "決算",
+                    "weather": "wthr_clud",
+                    "url": "https://kabuyoho.jp/sp/consNewsDetail?cat=1&nid=6758_20230809_act_20230809_150126_2&bcode=67",
+                },
+                ...
+            ]
         """
         dates = self.select("div.sp_news_list > ul span.time")
         dates = [datetime.strptime(re.sub(r"[\D]", "", d.text), "%Y%m%d%H%M") for d in dates]
