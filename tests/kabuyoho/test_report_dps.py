@@ -1,10 +1,10 @@
 import logging
 import os
 from datetime import datetime
-from money import Money
 
 import pytest
 import requests_mock
+from money import Money
 
 import kabupy
 from kabupy.base.decorators import webpage_property
