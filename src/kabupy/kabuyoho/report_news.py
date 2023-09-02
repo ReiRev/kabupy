@@ -22,8 +22,8 @@ class ReportNews(KabuyohoWebpage):
         super().__init__()
 
     @webpage_property
-    def news(self) -> list[dict]:
-        """list of news
+    def flash_reports(self) -> list[dict]:
+        """list of flash reports(業績速報).
 
         Returns:
             list[dict]: List of news.

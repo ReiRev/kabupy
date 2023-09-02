@@ -20,7 +20,7 @@ class TestReportNews:
             (
                 6758,
                 {
-                    "news": [
+                    "flash_reports": [
                         {
                             "date": datetime(2023, 8, 9, 15, 1),
                             "title": "2024年3月期連結第1四半期、税引前損益276,034百万円。IFISコンセンサスを上回る水準。",
@@ -51,7 +51,7 @@ class TestReportNews:
             (
                 7837,
                 {
-                    "news": [
+                    "flash_reports": [
                         {
                             "date": datetime(2023, 8, 14, 15, 1),
                             "title": "2024年3月期連結第1四半期、経常損益62百万円。",
