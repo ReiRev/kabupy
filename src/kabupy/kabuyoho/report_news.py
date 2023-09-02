@@ -48,7 +48,6 @@ class ReportNews(KabuyohoWebpage):
         categories = self.select("div.sp_news_list > ul span.ctgr")
         categories = [c.text for c in categories]
         weathers = self.select("div.sp_news_list > ul span.wthr")
-        # weathersの各要素のclass属性の値のうち、wthr以外を抽出する
         weathers = [w.get("class") for w in weathers]
         weathers = [[w for w in ws if w != "wthr"][0] for ws in weathers if isinstance(ws, list)]
         urls = self.select("div.sp_news_list > ul a")
