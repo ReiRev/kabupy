@@ -2,7 +2,6 @@ import logging
 import os
 from datetime import datetime
 
-import logging
 import pytest
 import requests_mock
 from money import Money

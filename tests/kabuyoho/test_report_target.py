@@ -1,6 +1,5 @@
 import logging
 import os
-import logging
 
 import pytest
 import requests_mock
