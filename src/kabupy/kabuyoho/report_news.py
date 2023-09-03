@@ -4,15 +4,14 @@ from __future__ import annotations
 import functools
 import logging
 import re
+import time
 import urllib.parse
 from datetime import datetime
 
-import time
-
 from ..base import Website
+from ..constatns import TIME_SLEEP
 from ..errors import ElementNotFoundError
 from .kabuyoho_webpage import KabuyohoWebpage
-from ..constatns import TIME_SLEEP
 
 logger = logging.getLogger(__name__)
 
@@ -68,6 +67,16 @@ class KabuyohoNewsWebpage(KabuyohoWebpage):
             return 1
         return int(re.sub(r"[\D]", "", page.text))
 
+    # ニュースがないかあるか判定する関数
+    def has_links(self) -> bool:
+        """True if there are news."""
+        try:
+            if self.select_one('div.sp_news_list li:-soup-contains("該当するニュースがございません。")'):
+                return False
+        except ElementNotFoundError:
+            pass
+        return True
+
     def get_links(self, max_page: int | None = 1, time_sleep: float = TIME_SLEEP) -> list[dict]:
         """list of links.
 
@@ -91,14 +100,16 @@ class KabuyohoNewsWebpage(KabuyohoWebpage):
             ]
         """
         res = []
+        if not self.has_links():
+            return res
         if max_page is None:
             max_page = self.get_max_page()
         else:
             max_page = min(max_page, self.get_max_page())
-        for p in range(1, max_page + 1):
-            if p > 1:
+        for _page in range(1, max_page + 1):
+            if _page > 1:
                 time.sleep(time_sleep)
-                self.url = self.url + f"&page={p}"
+                self.url = self.url + f"&page={_page}"
                 self.load()
             dates = self.select("div.sp_news_list > ul span.time")
             dates = [datetime.strptime(re.sub(r"[\D]", "", d.text), "%Y%m%d%H%M") for d in dates]

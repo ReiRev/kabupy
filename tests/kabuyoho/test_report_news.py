@@ -240,6 +240,55 @@ class TestReportNews:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}&cat=2", text=text)
             assert kabupy.kabuyoho.stock(security_code).report_news.flash_report.get_links() == expected_values
 
+    @pytest.mark.parametrize(
+        "security_code,expected_values",
+        [
+            (
+                6758,
+                [
+                    {
+                        "date": datetime(2023, 9, 1, 22, 45),
+                        "title": "24年3月期経常予想。対前週0.1%上昇。",
+                        "category": "コンセンサス変化",
+                        "weather": "wthr_clud",
+                        "url": "https://kabuyoho.jp/sp/consNewsDetail?cat=2"
+                        "&nid=6758_20230901_cons_20230901_224529_40&bcode=6758",
+                    },
+                    {
+                        "date": datetime(2023, 8, 17, 22, 45),
+                        "title": "24年3月期経常予想。対前週0.9%下降。",
+                        "category": "コンセンサス変化",
+                        "weather": "wthr_clud",
+                        "url": "https://kabuyoho.jp/sp/consNewsDetail?cat=2"
+                        "&nid=6758_20230817_cons_20230817_224530_41&bcode=6758",
+                    },
+                    {
+                        "date": datetime(2023, 8, 16, 22, 45),
+                        "title": "24年3月期経常予想。対前週0.9%下降。",
+                        "category": "コンセンサス変化",
+                        "weather": "wthr_clud",
+                        "url": "https://kabuyoho.jp/sp/consNewsDetail?cat=2"
+                        "&nid=6758_20230816_cons_20230816_224535_45&bcode=6758",
+                    },
+                ],
+            ),
+            (
+                7837,
+                [],
+            ),
+        ],
+    )
+    def test_analyst_prediction(self, helpers, security_code, expected_values: dict):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/{url_directory}/analyst_prediction/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}&cat=3", text=text)
+            assert kabupy.kabuyoho.stock(security_code).report_news.analyst_prediction.get_links() == expected_values
+
     def test_flash_report_raise_element_not_found_error(self, helpers):
         text = helpers.html2text(
             filename=os.path.join(
