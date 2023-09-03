@@ -289,6 +289,55 @@ class TestReportNews:
             m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}&cat=3", text=text)
             assert kabupy.kabuyoho.stock(security_code).report_news.analyst_prediction.get_links() == expected_values
 
+    @pytest.mark.parametrize(
+        "security_code,expected_values",
+        [
+            (
+                6758,
+                [
+                    {
+                        "date": datetime(2023, 9, 1, 18, 0),
+                        "title": "米系大手証券、レーティング強気継続。目標株価引き上げ、16,700円。",
+                        "category": "レーティング",
+                        "weather": "wthr_fine",
+                        "url": "https://kabuyoho.jp/sp/consNewsDetail?"
+                        "cat=3&nid=6758_20230901_rep_20230901_180005_39&bcode=6758",
+                    },
+                    {
+                        "date": datetime(2023, 8, 24, 11, 5),
+                        "title": "欧州系大手証券、レーティング強気継続。目標株価引き下げ、15,400円。",
+                        "category": "レーティング",
+                        "weather": "wthr_fine",
+                        "url": "https://kabuyoho.jp/sp/consNewsDetail"
+                        "?cat=3&nid=6758_20230824_rep_20230824_110502_3&bcode=6758",
+                    },
+                    {
+                        "date": datetime(2023, 8, 22, 18, 00),
+                        "title": "日系大手証券、レーティング強気継続。目標株価引き上げ、18,000円。",
+                        "category": "レーティング",
+                        "weather": "wthr_fine",
+                        "url": "https://kabuyoho.jp/sp/consNewsDetail?cat=3"
+                        "&nid=6758_20230822_rep_20230822_180006_45&bcode=6758",
+                    },
+                ],
+            ),
+            (
+                7837,
+                [],
+            ),
+        ],
+    )
+    def test_analyst_evaluation(self, helpers, security_code, expected_values: dict):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/{url_directory}/analyst_evaluation/{security_code}.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode={security_code}&cat=4", text=text)
+            assert kabupy.kabuyoho.stock(security_code).report_news.analyst_evaluation.get_links() == expected_values
+
     def test_flash_report_raise_element_not_found_error(self, helpers):
         text = helpers.html2text(
             filename=os.path.join(
