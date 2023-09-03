@@ -118,15 +118,9 @@ class KabuyohoNewsWebpage(KabuyohoWebpage):
             categories = self.select("div.sp_news_list > ul span.ctgr")
             categories = [c.text for c in categories]
             weathers = self.select("div.sp_news_list > ul span.wthr")
-            weathers = [w.get("class") for w in weathers]
-            for i, weather in enumerate(weathers):
-                if weather is None:
-                    weathers[i] = None
-                elif isinstance(weather, list):
-                    _extracted = [w for w in weather if w != "wthr"]
-                    weathers[i] = _extracted[0] if len(_extracted) > 0 else None
-                elif isinstance(weather, str):
-                    weathers[i] = weather if weather != "wthr" else None
+            weathers = [w.get_attribute_list("class") for w in weathers]
+            weathers = [[w for w in weather if w != "wthr"] for weather in weathers]
+            weathers = [weather[0] if len(weather) > 0 else None for weather in weathers]
             urls = self.select("div.sp_news_list > ul a")
             urls = [u.get("href") for u in urls]
             urls = [urllib.parse.urljoin(self.website.url, u) for u in urls if isinstance(u, str)]
