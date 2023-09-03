@@ -1,11 +1,11 @@
 """Scraper for https://kabuyoho.jp/sp/reportDps"""
 from __future__ import annotations
 
+import functools
 import logging
 import re
 import urllib.parse
 from datetime import datetime
-import functools
 
 from ..base import Website, webpage_property
 from .kabuyoho_webpage import KabuyohoWebpage
