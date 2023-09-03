@@ -29,9 +29,11 @@
     "autoDocstring.docstringFormat": "google",
     "cSpell.words": [
         "bcode",
+        "ctgr",
         "kabupy",
         "kabuyoho",
-        "thead"
+        "thead",
+        "wthr"
     ],
     "python.analysis.typeCheckingMode": "basic",
     "coverage-gutters.coverageBaseDir": ".",
