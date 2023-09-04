@@ -9,6 +9,7 @@ from .report_dps import ReportDps
 from .report_news import ReportNews
 from .report_target import ReportTarget
 from .report_top import ReportTop
+from .report_trend_signal import ReportTrendSignal
 
 logger = logging.getLogger(__name__)
 
@@ -50,3 +51,8 @@ class Stock:
     def report_news(self) -> ReportNews:
         """Report news page object"""
         return ReportNews(self.website, self.security_code)
+
+    @functools.cached_property
+    def report_trend_signal(self) -> ReportTrendSignal:
+        """Report trend signal page object"""
+        return ReportTrendSignal(self.website, self.security_code)
