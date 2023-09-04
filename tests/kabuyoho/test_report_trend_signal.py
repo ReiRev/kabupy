@@ -49,6 +49,23 @@ class TestTrendSignal:
             for k, v in expected_values.items():
                 assert getattr(kabupy.kabuyoho.stock(security_code).report_trend_signal, k) == v
 
+    def test_invalid_number_of_elements(self, helpers):
+        text = helpers.html2text(
+            filename=os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                f"html/{url_directory}/invalid_number_of_elements.html",
+            )
+        )
+        with requests_mock.Mocker() as m:
+            m.get(f"https://kabuyoho.jp/sp/{url_directory}?bcode=6758", text=text)
+            page = kabupy.kabuyoho.stock(6758).report_trend_signal
+            with pytest.raises(ElementNotFoundError):
+                page.coincident_index
+            with pytest.raises(ElementNotFoundError):
+                page.leading_index
+            with pytest.raises(ElementNotFoundError):
+                page.risk_on_relative_index_level
+
     def test_raise_element_not_found_error(self, helpers):
         text = helpers.html2text(
             filename=os.path.join(
