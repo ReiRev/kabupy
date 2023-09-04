@@ -22,9 +22,19 @@ class TestTrendSignal:
                 {
                     "trend_signal": "買い継続",
                     "coincident_index": 0.05,
+                    "leading_index": 0.08,
+                    "risk_on_relative_index_level": "底値圏突入",
                 },
             ),
-            (7837, {"trend_signal": "ニュートラル", "coincident_index": 0.75}),
+            (
+                7837,
+                {
+                    "trend_signal": "ニュートラル",
+                    "coincident_index": 0.75,
+                    "leading_index": 0.74,
+                    "risk_on_relative_index_level": None,
+                },
+            ),
         ],
     )
     def test_properties(self, helpers, security_code, expected_values: dict):
