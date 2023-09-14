@@ -5,7 +5,7 @@ from __future__ import annotations
 from .jpx import Jpx
 from .kabuyoho import Kabuyoho
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 
 kabuyoho = Kabuyoho()
 jpx = Jpx()
