@@ -168,8 +168,6 @@ class ReportTop(KabuyohoWebpage):
         res = self.select_one(
             'main div:-soup-contains("目標株価") + div h2:-soup-contains("理論株価") + div dt:-soup-contains("PBR基準") + dd'
         )
-        if res is None:
-            return None
         res = re.sub(r"\s+", "", res.text)
         return res if res != "--" else None
 
@@ -179,8 +177,6 @@ class ReportTop(KabuyohoWebpage):
         res = self.select_one(
             'main div:-soup-contains("目標株価") + div h2:-soup-contains("理論株価") + div dt:-soup-contains("PER基準") + dd'
         )
-        if res is None:
-            return None
         res = re.sub(r"\s+", "", res.text)
         return res if res != "--" else None
 
@@ -191,8 +187,6 @@ class ReportTop(KabuyohoWebpage):
             'main div:-soup-contains("トレンドシグナル") + div h2:-soup-contains("リスクオン相対指数") + '
             'dl > dt:-soup-contains("水準") + dd'
         )
-        if res is None:
-            return None
         res = re.sub(r"\s+", "", res.text)
         return res if res != "--" else None
 

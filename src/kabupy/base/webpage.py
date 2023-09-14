@@ -17,8 +17,9 @@ class Webpage(ABC):
     html: str
     soup: BeautifulSoup
 
-    def __init__(self):
-        self.load()
+    def __init__(self, load: bool = True) -> None:
+        if load:
+            self.load()
 
     def load(self):
         """Load webpage and set html and soup"""
