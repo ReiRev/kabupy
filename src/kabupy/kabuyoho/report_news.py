@@ -9,7 +9,7 @@ import urllib.parse
 from datetime import datetime
 
 from ..base import Website
-from ..constatns import TIME_SLEEP
+from ..constants import TIME_SLEEP
 from ..errors import ElementNotFoundError
 from .kabuyoho_webpage import KabuyohoWebpage
 
