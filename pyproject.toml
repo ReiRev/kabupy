@@ -43,6 +43,10 @@ test = [
     "pytest-github-actions-annotate-failures",
     "shellcheck-py==0.9.0.2",
     "requests_mock",
+    "sphinx",
+    "pydata-sphinx-theme",
+    "sphinx_fontawesome",
+    "myst-parser",
 ]
 
 doc = ["sphinx", "pydata-sphinx-theme", "sphinx_fontawesome", "myst-parser"]
