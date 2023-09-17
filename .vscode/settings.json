@@ -39,5 +39,6 @@
     "coverage-gutters.coverageBaseDir": ".",
     "coverage-gutters.coverageFileNames": [
         "coverage.xml",
-    ]
+    ],
+    "livePreview.defaultPreviewPath": "/docs/build/html/index.html"
 }
