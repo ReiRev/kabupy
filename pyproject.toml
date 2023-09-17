@@ -165,7 +165,7 @@ commands = pyright src tests
 deps =
     .[doc]
 commands =
-    sphinx-apidoc --ext-autodoc --ext-viewcode --ext-githubpages -o docs/resource src
+    sphinx-apidoc --force --ext-autodoc --ext-viewcode --ext-githubpages -o docs/resource src/kabupy
     sphinx-build docs docs/_build
 """
 
