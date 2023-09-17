@@ -43,13 +43,15 @@ test = [
     "pytest-github-actions-annotate-failures",
     "shellcheck-py==0.9.0.2",
     "requests_mock",
+]
+
+doc = [
     "sphinx",
     "pydata-sphinx-theme",
     "sphinx_fontawesome",
     "myst-parser",
+    "sphinx-sitemap",
 ]
-
-doc = ["sphinx", "pydata-sphinx-theme", "sphinx_fontawesome", "myst-parser"]
 
 [project.urls]
 Documentation = "https://github.com/ReiRev/kabupy/tree/main#readme"
@@ -165,7 +167,7 @@ commands = pyright src tests
 deps =
     .[doc]
 commands =
-    sphinx-apidoc --ext-autodoc --ext-viewcode --ext-githubpages -o docs/resource src
+    sphinx-apidoc --force --ext-autodoc --ext-viewcode --ext-githubpages -o docs/resource src/kabupy
     sphinx-build docs docs/_build
 """
 

@@ -54,13 +54,13 @@ class ReportDps(KabuyohoWebpage):
 
     @webpage_property
     def expected_dividend_yield(self) -> float | None:
-        """Expected dividend yield(予想配当利回り)."""
+        """Expected dividend yield, 予想配当利回り."""
         amount = self.select_one('th:-soup-contains("予想配当利回り") + td')
         return str2float(amount.text)
 
     @webpage_property
     def dividend_payout_ratio(self) -> float | None:
-        """Dividend payout ratio(前期配当性向).
+        """Dividend payout ratio, 前期配当性向.
 
         Returns:
         float | None: Dividend payout ratio.
