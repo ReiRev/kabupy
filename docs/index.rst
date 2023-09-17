@@ -10,6 +10,7 @@ Welcome to kabupy's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   resource/modules
 
 
 Indices and tables
