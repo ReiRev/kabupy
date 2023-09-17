@@ -27,7 +27,7 @@ extensions = [
     "sphinx.ext.viewcode",  # Add links to highlighted source code
     "sphinx.ext.napoleon",  # to render Google format docstrings
     "sphinx.ext.githubpages",
-    "sphinx_sitemap"
+    "sphinx_sitemap",
 ]
 
 
@@ -45,5 +45,5 @@ napoleon_include_init_with_doc = True
 napoleon_include_private_with_doc = True
 
 # sphinx-sitemap settings
-html_baseurl = 'https://reirev.github.io/kabupy/'
+html_baseurl = "https://reirev.github.io/kabupy/"
 sitemap_url_scheme = "/{link}"
