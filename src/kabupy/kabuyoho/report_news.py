@@ -86,17 +86,18 @@ class KabuyohoNewsWebpage(KabuyohoWebpage):
             list[dict]: List of news.
 
         Note:
-            The example of the return value is as follows:
-            [
-                {
-                    "date": datetime(2021, 3, 1, 12, 34),
-                    "title": "FooBar",
-                    "category": "決算",
-                    "weather": "wthr_clud",
-                    "url": "https://kabuyoho.jp/sp/example"
-                },
-                ...
-            ]
+            The example of the return value is as follows::
+
+                [
+                    {
+                        "date": datetime(2021, 3, 1, 12, 34),
+                        "title": "FooBar",
+                        "category": "決算",
+                        "weather": "wthr_clud",
+                        "url": "https://kabuyoho.jp/sp/example"
+                    },
+                ]
+
         """
         res = []
         if not self.has_links():
