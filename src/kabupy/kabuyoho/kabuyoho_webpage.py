@@ -22,19 +22,19 @@ class KabuyohoWebpage(Webpage):
 
     @webpage_property
     def price(self) -> Money | None:
-        """Price of the stock: 価格"""
+        """Price of the stock, 価格."""
         amount = self.select_one('main li p:-soup-contains("株価","(","/",")") + p')
         return str2money(amount.text)
 
     @webpage_property
     def name(self) -> str | None:
-        """Name of the stock: 銘柄名"""
+        """Name of the stock, 銘柄名."""
         res = self.select_one(f"main ul:-soup-contains('{self.security_code}') > li")
         return res.text
 
     @webpage_property
     def earnings_release_date(self) -> datetime | None:
-        """Earnings release date: 決算発表日"""
+        """Earnings release date, 決算発表日."""
         res = self.select_one(f"main ul:-soup-contains('{self.security_code}') > li:last-of-type")
         match = re.search(r"(\d{4})/(\d{2})/(\d{2})", res.text)
         if match:

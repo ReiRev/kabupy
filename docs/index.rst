@@ -7,7 +7,7 @@ Welcome to kabupy's documentation!
 ==================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
    resource/modules
