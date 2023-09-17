@@ -67,7 +67,6 @@ class KabuyohoNewsWebpage(KabuyohoWebpage):
             return 1
         return int(re.sub(r"[\D]", "", page.text))
 
-    # ニュースがないかあるか判定する関数
     def has_links(self) -> bool:
         """True if there are news."""
         try:

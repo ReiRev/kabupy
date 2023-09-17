@@ -23,28 +23,28 @@ class ReportTarget(KabuyohoWebpage):
         self.url = urllib.parse.urljoin(self.website.url, f"sp/reportTarget?bcode={self.security_code}")
         super().__init__()
 
-    # Properties in "price target(目標株価)"
+    # Properties in "price target, 目標株価."
 
     @webpage_property
     def price_level_to_target(self) -> str | None:
-        """Current price level to target price: 目標株価に対する現在の価格が割高か割安か."""
+        """Current price level to target price, 目標株価に対する現在の価格が割高か割安か."""
         return None if self.term2description("目標株価から見た株価") == "--" else self.term2description("目標株価から見た株価")
 
     @webpage_property
     def price_target(self) -> Money | None:
-        """Price target: 目標株価(アナリストが発表した目標株価の平均値)"""
+        """Price target, 目標株価(アナリストが発表した目標株価の平均値)."""
         amount = self.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td:nth-of-type(1)')
         return str2money(amount.text)
 
     @webpage_property
     def price_target_ratio_to_previous_week(self) -> float | None:
-        """Price target ratio to previous week in %: 目標株価の対前週変化率"""
+        """Price target ratio to previous week in %, 目標株価の対前週変化率."""
         amount = self.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td:nth-of-type(2)')
         return str2float(amount.text)
 
     @webpage_property
     def price_target_ratio_to_current_price(self) -> float | None:
-        """(price target) / (current price) in %: 目標株価と現在の株価の乖離率"""
+        """(price target) / (current price) in %, 目標株価と現在の株価の乖離率."""
         amount = self.select_one('thead:has(>tr>th:-soup-contains("平均")) ~ tbody>tr>td:nth-of-type(3)')
         return str2float(amount.text)
 
@@ -52,13 +52,13 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def average_analyst_rating(self) -> float | None:
-        """Average analyst rating: レーティング(平均)"""
+        """Average analyst rating, レーティング(平均)."""
         amount = self.select_one('main section:has(h1:-soup-contains("レーティング")) th:-soup-contains("平均") + td')
         return str2float(amount.text)
 
     @webpage_property
     def analyst_count(self) -> int | None:
-        """Average count: レーティング(人数)"""
+        """Average count, レーティング(人数)."""
         amount = self.select_one('main section:has(h1:-soup-contains("レーティング")) th:-soup-contains("人数") + td')
         amount = re.sub(r"\D", "", amount.text)
         if amount == "":
@@ -67,7 +67,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def analyst_rating_composition(self) -> dict[str, int]:
-        """Analyst rating composition: レーティング(点数の構成)
+        """Analyst rating composition, レーティング(点数の構成).
 
         Returns:
             dict[str, int]: key: rating("1", "2", "3", "4", and "5"),
@@ -84,41 +84,39 @@ class ReportTarget(KabuyohoWebpage):
             composition[rating] = str2int(res.text)
         return composition
 
-    # Properties in "stock index(株価指標)"
-
     @webpage_property
     def bps(self) -> Money | None:
-        """Book-value per share: BPS(実績)"""
+        """Book-value per share, BPS(実績)."""
         amount = self.select_one('main h2:-soup-contains("株価指標") + table th:-soup-contains("BPS(実績)") + td')
         return str2money(amount.text)
 
     @webpage_property
     def forward_eps(self) -> Money | None:
-        """Forward earnings per share: EPS(予想)"""
+        """Forward earnings per share, EPS(予想)."""
         amount = self.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("EPS(予想)") + td')
         return str2money(amount.text)
 
     @webpage_property
     def forward_eps_by_analysts(self) -> Money | None:
-        """Forward earnings per share in twelve months based on analysts estimates: EPS(アナリスト12ヶ月後予想)"""
+        """Forward earnings per share in twelve months based on analysts estimates, EPS(アナリスト12ヶ月後予想)."""
         amount = self.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("EPS ※") + td')
         return str2money(amount.text)
 
     @webpage_property
     def pbr(self) -> float | None:
-        """Price to book ratio: PBR"""
+        """Price to book ratio, PBR."""
         amount = self.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("PBR") + td')
         return str2float(amount.text)
 
     @webpage_property
     def forward_per(self) -> float | None:
-        """Forward price to earnings ratio based on company estimates: PER(会予)"""
+        """Forward price to earnings ratio based on company estimates, PER(会予)."""
         amount = self.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("PER(会予)") + td')
         return str2float(amount.text)
 
     @webpage_property
     def forward_per_by_analysts(self) -> float | None:
-        """Forward PER in twelve months based on analysts estimates: PER(アナリスト12ヶ月後予想)"""
+        """Forward PER in twelve months based on analysts estimates, PER(アナリスト12ヶ月後予想)."""
         amount = self.select_one('main h2:-soup-contains("株価指標")+table th:-soup-contains("PER ※") + td')
         return str2float(amount.text)
 
@@ -126,7 +124,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def pbr_based_fair_value(self) -> Money | None:
-        """PBR based fair value: 理論株価(PBR基準)"""
+        """PBR based fair value, 理論株価(PBR基準)."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr>th:-soup-contains("理論株価(PBR基準)") + '
@@ -136,7 +134,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def pbr_fair(self) -> float | None:
-        """PBR when the stock price is at pbr_based_fair_value: 理論株価(PBR基準)の時のPBR"""
+        """PBR when the stock price is at pbr_based_fair_value, 理論株価(PBR基準)の時のPBR."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr>th:-soup-contains("理論株価(PBR基準)") + '
@@ -146,7 +144,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def pbr_based_ceiling(self) -> Money | None:
-        """PBR based ceiling price of the stock: 上値目途(PBR基準)"""
+        """PBR based ceiling price of the stock, 上値目途(PBR基準)."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
@@ -156,7 +154,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def pbr_ceiling(self) -> float | None:
-        """PBR when the stock price is at pbr_based_ceiling: 下値目途(PBR基準)の時のPBR"""
+        """PBR when the stock price is at pbr_based_ceiling, 下値目途(PBR基準)の時のPBR."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
@@ -166,7 +164,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def pbr_based_floor(self) -> Money | None:
-        """PBR based floor price of the stock: 下値目途(PBR基準)"""
+        """PBR based floor price of the stock, 下値目途(PBR基準)."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
@@ -176,7 +174,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def pbr_floor(self) -> float | None:
-        """PBR when the stock price is at pbr_based_floor: 下値目途(PBR基準)の時のPBR"""
+        """PBR when the stock price is at pbr_based_floor, 下値目途(PBR基準)の時のPBR."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr:has(>th:-soup-contains("理論株価(PBR基準)")) ~ '
@@ -186,7 +184,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def per_based_fair_value(self) -> Money | None:
-        """PER based fair value: 理論株価(PER基準)"""
+        """PER based fair value, 理論株価(PER基準)."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr>th:-soup-contains("理論株価(PER基準)") + '
@@ -196,7 +194,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def per_fair(self) -> float | None:
-        """PER when the stock price is at per_based_fair_value: 理論株価(PER基準)の時のPER"""
+        """PER when the stock price is at per_based_fair_value, 理論株価(PER基準)の時のPER."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr>th:-soup-contains("理論株価(PER基準)") + '
@@ -206,7 +204,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def per_based_ceiling(self) -> Money | None:
-        """PER based ceiling price of the stock: 上値目途(PER基準)"""
+        """PER based ceiling price of the stock, 上値目途(PER基準)."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
@@ -216,7 +214,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def ceiling_per(self) -> float | None:
-        """PER when the stock price is at per_based_ceiling: 下値目途(PER基準)の時のPER"""
+        """PER when the stock price is at per_based_ceiling, 下値目途(PER基準)の時のPER."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
@@ -226,7 +224,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def per_based_floor(self) -> Money | None:
-        """PER based floor price of the stock: 下値目途(PER基準)"""
+        """PER based floor price of the stock, 下値目途(PER基準)."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
@@ -236,7 +234,7 @@ class ReportTarget(KabuyohoWebpage):
 
     @webpage_property
     def per_floor(self) -> float | None:
-        """PER when the stock price is at per_based_floor: 下値目途(PER基準)の時のPER"""
+        """PER when the stock price is at per_based_floor, 下値目途(PER基準)の時のPER."""
         value = self.select_one(
             'main h2:-soup-contains("想定株価レンジ") + '
             'table tr:has(>th:-soup-contains("理論株価(PER基準)")) ~ '
