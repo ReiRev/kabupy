@@ -49,6 +49,8 @@ test = [
     "myst-parser",
 ]
 
+doc = ["sphinx", "pydata-sphinx-theme", "sphinx_fontawesome", "myst-parser"]
+
 [project.urls]
 Documentation = "https://github.com/ReiRev/kabupy/tree/main#readme"
 Source = "https://github.com/ReiRev/kabupy"
@@ -109,7 +111,7 @@ testpaths = "tests"
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py{311,310,39,38},isort,autoflake,black,pylint,pyright
+envlist = py{311,310,39,38},isort,autoflake,black,pylint,pyright,doc
 requires =
     tox>4
 skip_missing_interpreters = True
@@ -158,6 +160,13 @@ deps =
     pyright
     .[test]
 commands = pyright src tests
+
+[testenv:doc]
+deps =
+    .[doc]
+commands =
+    sphinx-apidoc --ext-autodoc --ext-viewcode --ext-githubpages -o docs/resource src
+    sphinx-build docs docs/_build
 """
 
 [tool.autoflake]
