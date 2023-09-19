@@ -35,7 +35,8 @@ def str2int(value: str) -> int | None:
     """Convert str to int"""
     if not re.search(r"\d", value):
         return None
-    amount = re.sub(r"[^\d.-]", "", value)
-    if amount == "":
+    value = value.translate(jpy_unit)
+    value = re.sub(r"[^\d.-]", "", value)
+    if value == "":
         return None
-    return int(amount)
+    return int(value)
