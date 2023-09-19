@@ -1,6 +1,7 @@
 """Base class for webpage"""
 from __future__ import annotations
 
+import re
 from abc import ABC
 
 import requests
@@ -41,3 +42,8 @@ class Webpage(ABC):
         if len(res) == 0:
             raise ElementNotFoundError(f"{selector} not found in {self.url}")
         return res
+
+    def th2td(self, table_header: str) -> str:
+        """Get table data from table header."""
+        res = self.select_one(f'th:-soup-contains("{table_header}") + td')
+        return re.sub(r"\s+", "", res.text)
